@@ -117,7 +117,7 @@ public class User extends BaseEntity implements Serializable {
     }
 
     public String getCredentialsSalt() {
-        return username + salt;
+        return salt;
     }
 
     public void setRoleIds(List<Integer> roleIds) {

@@ -34,4 +34,10 @@ public class MenuController {
         model.addAttribute("url","/back/menu/menuList?");
         return "menu/list";
     }
+
+    @RequestMapping("/add")
+    public String add(){
+
+        return "menu/add";
+    }
 }

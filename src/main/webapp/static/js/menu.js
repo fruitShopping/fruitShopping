@@ -4,7 +4,6 @@
 (function(window){
     var  u = {};
     u.initMenu = function(){
-        this.winScroll();//滚动条
         this.bindClick();//绑定事件
     };
     //绑定事件
@@ -33,20 +32,6 @@
             }else{
                 layer.msg('您没有选中如何数据请选择后操作', {time:2000, icon:0});
             }
-        });
-    };
-    /*初始化滚动条*/
-    u.winScroll = function(){
-        $("html").niceScroll({
-            styler:"fb",
-            cursorcolor:"#cccccc",
-            cursorwidth: '5',
-            cursorborderradius: '5px',
-            background: '',
-            autohidemode: false,
-            spacebarenabled:false,
-            cursorborder: '0',
-            zindex: '1000'
         });
     };
     window.$menuControl = u;

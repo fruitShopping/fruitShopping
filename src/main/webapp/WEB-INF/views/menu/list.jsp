@@ -24,8 +24,9 @@
     <div class="response-head titlePanel">
         <div class="toolbar">
             <div class="btn-group">
-                <a id="ul-add" class="btn btn-info">
-                    <i class="fa fa-plus"></i>&nbsp;新增</a>
+                <a id="ul-add" class="btn btn-info" href="${ctx}/back/menu/add">
+                    <i class="fa fa-plus"></i>&nbsp;新增
+                </a>
             </div>
             <div class="btn-group">
                 <a id="ul-edit" class="btn btn-success">
@@ -93,12 +94,14 @@
 <script type="text/javascript" src="${ctx}/static/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/menu.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/checkBox.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/scroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/page.js"></script>
 <script type="text/javascript">
     $(function() {
         $menuControl.initMenu();
         $pageControl.initPage('${menuList.pageNum}','${url}','${menuList.pageTotal}');
         $checkBoxControl.initCheckBox();
+        $scroll.initScroll();
     });
 </script>
 </html>
