@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+ 						http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+ 						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+ 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       default-lazy-init="false">
+
+    <!-- 定时同步111.4.115.75数据库数据定时任务 -->
+    <!--<bean name="schedulerManager" class="com.microCredit.scoreDeduct.schedule.DataSynchronousSchedule"/>-->
+
+    <!--<bean id="methodInvokingJobDetail" scope="singleton"-->
+          <!--class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+        <!--<property name="targetObject">-->
+            <!--<ref bean="schedulerManager" />-->
+        <!--</property>-->
+        <!--&lt;!&ndash;false表示等上一个任务执行完后再开启新的任务&ndash;&gt;-->
+        <!--<property name="concurrent" value="false"/>-->
+        <!--<property name="targetMethod">-->
+            <!--<value>doDataDownload</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!-- 配置触发器 -->
+    <!--<bean id="cronTrigger" scope="singleton" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+         <!--&lt;!&ndash;这里不可以直接在属性jobDetail中引用taskJob，因为他要求的是一个jobDetail类型的对象，所以我们得通过MethodInvokingJobDetailFactoryBean来转一下 &ndash;&gt;-->
+        <!--<property name="jobDetail">-->
+            <!--<ref bean="methodInvokingJobDetail" />-->
+        <!--</property>-->
+        <!--<property name="cronExpression">-->
+            <!--&lt;!&ndash; 每5分钟执行一次&ndash;&gt;-->
+            <!--<value>0 0/2 * * * ?</value>-->
+        <!--</property>-->
+
+    <!--</bean>-->
+    <!-- 定彩出票定时任务 END-->
+
+    <!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+        <!--<property name="triggers">-->
+            <!--<list>-->
+                <!--<ref local="cronTrigger" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>

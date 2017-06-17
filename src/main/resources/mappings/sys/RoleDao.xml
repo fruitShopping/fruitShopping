@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.user.RoleDao">
+	<select id="findAllList" resultType="Role">
+		SELECT * FROM sys_role
+		WHERE del_flag = #{user.DEL_FLAG_NORMAL}
+		ORDER BY name
+	</select>
+
+	<select id="findOneByName" resultType="Role">
+		SELECT id, role_name, description, authority_ids AS authorityIdsStr FROM sys_role WHERE role=#{roleName}
+	</select>
+	<select id="findUserRoleId" resultType="java.lang.Integer">
+		SELECT role_id from sys_user_role WHERE user_id = #{userId}
+	</select>
+	<select id="findOne" resultType="Role">
+		SELECT id, role_name, description, authority_ids AS authorityIdsStr FROM sys_role WHERE id=#{id}
+	</select>
+
+	<select id="findListByUser" resultType="Role">
+		SELECT <!-- DISTINCT -->
+		a.*
+		FROM sys_role a
+		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
+		LEFT JOIN sys_user u ON u.id = ur.user_id
+		WHERE a.del_flag = #{user.DEL_FLAG_NORMAL}
+		<if test="user != null and user.id != null and user.id != 0">
+			AND u.id = #{user.id}
+		</if>
+		<if test="user != null and user.username != null and user.username != ''">
+			AND u.username = #{user.username}
+		</if>
+		ORDER BY a.role_name
+	</select>
+</mapper>

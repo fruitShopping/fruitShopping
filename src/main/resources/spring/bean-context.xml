@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="interfaces" location="classpath:interfaces.properties"/>
+    <!--<bean class="com.microCredit.lotteryAgent.spring.SpringUtils"/>-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数 -->
+        <property name="corePoolSize" value="${task.core_pool_size}" />
+        <!-- 最大线程数 -->
+        <property name="maxPoolSize" value="${task.max_pool_size}" />
+        <!-- 队列最大长度 -->
+        <property name="queueCapacity" value="${task.queue_capacity}" />
+        <!-- 线程池维护线程所允许的空闲时间，默认为60s -->
+        <property name="keepAliveSeconds" value="${task.keep_alive_seconds}" />
+        <!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+    <!--<bean id="mainExecutor" class="com.microCredit.sms.taskExecutor.MainExecutor">-->
+        <!--<property name="taskExecutor" ref="taskExecutor" />-->
+    <!--</bean>-->
+
+    <!--<bean id="springScheduleExecutorTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">-->
+        <!--<property name="runnable" ref="mainExecutor" />-->
+        <!--&lt;!&ndash; 容器加载10秒后开始执行 &ndash;&gt;-->
+        <!--<property name="delay" value="3000" />-->
+        <!--&lt;!&ndash; 每次任务间隔 5秒&ndash;&gt;-->
+        <!--<property name="period" value="5000" />-->
+    <!--</bean>-->
+
+    <!--<bean id="springScheduledExecutorFactoryBean" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">-->
+        <!--<property name="scheduledExecutorTasks">-->
+            <!--<list>-->
+                <!--<ref bean="springScheduleExecutorTask" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>

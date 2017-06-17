@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.user.UserDao">
+	<resultMap id="User" type="com.zcf.fruit.entity.user.User"></resultMap>
+	<sql id="userColumns">
+		u.id,
+		u.username,
+		u.password,
+		u.real_name AS realName,
+		u.photo,
+		u.add_time AS addTime,
+		u.telephone,
+		u.identity_card_num AS identityCardNum,
+		u.login_ip AS loginIp,
+		u.login_date AS loginDate,
+		u.remarks,
+		u.salt,
+		u.locked,
+		u.create_by AS createBy,
+		u.create_date AS createDate,
+		u.update_by AS updateBy,
+		u.update_date AS updateDate ,
+		u.del_flag AS delFlag
+	</sql>
+	<!-- 根据用户名查询用户 -->
+	<select id="findByUsername" resultMap="User">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = 0
+	</select>
+
+	<!-- 根据登录名查询用户角色 -->
+	<select id="findByRoleIds">
+		SELECT r.authority_ids FROM sys_user u,sys_role r,sys_user_role ur
+		 WHERE r.id = ur.role_id AND ur.user_id = u.id" +
+		 AND u.username = #{username} AND a.del_flag = 0
+	</select>
+
+	<!-- 根据登录名查询用户列表 -->
+	<select id="getUsersList" resultType="User">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user u
+		WHERE u.del_flag = 0
+		<if test="username != '' and username != null">
+			AND u.username like CONCAT('%', #{username}, '%')
+		</if>
+		ORDER BY u.id DESC limit #{begin},#{size}
+	</select>
+
+	<!-- 查询全部用户数目 -->
+	<select id="getUsersListTotal" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1)
+		FROM sys_user u
+		WHERE u.del_flag = 0
+		<if test="username != '' and username != null">
+			AND u.username like CONCAT('%', #{username}, '%')
+		</if>
+	</select>
+
+	<!-- 更新用户锁 -->
+	<select id="doLocked" >
+		UPDATE sys_user SET locked = #{num} WHERE id = #{userId}
+	</select>
+
+	<!-- 删除用户 -->
+	<select id="userDel" >
+		UPDATE sys_user set del_flag = 1 WHERE id = #{userId}
+	</select>
+
+	<!-- 根据用户ID查询用户 -->
+	<select id="findByUserId" resultType="User">
+		SELECT
+		<include refid="userColumns"/>
+		 FROM sys_user u WHERE u.id = #{userId} AND u.del_flag = 0
+	</select>
+
+	<!-- 根据用户名和密码查询用户 -->
+	<select id="findUserByUserName" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS total FROM sys_user WHERE username = #{username} AND password = #{password}
+	</select>
+
+	<!-- 插入用户 -->
+	<insert id="insert">
+		INSERT INTO sys_user(
+			username,
+			password,
+			telephone,
+			real_name,
+			identity_card_num,
+			salt,
+			addTime,
+			photo,
+			create_by,
+			create_date,
+			remarks
+		) VALUES (
+			#{username},
+			#{password},
+			#{telephone},
+			#{real_name},
+			#{identity_card_num},
+			#{salt},
+			#{addTime},
+			#{photo},
+			#{createBy.id},
+			#{createDate},
+			#{remarks}
+		)
+	</insert>
+
+	<!-- 更新用户信息 -->
+	<update id="update">
+		UPDATE sys_user SET
+			username = #{username},
+			password = #{password},
+			telephone = #{telephone},
+			real_name = #{real_name},
+			identity_card_num = #{identity_card_num},
+			salt = #{salt},
+			photo = #{photo},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除用户和角色关联表数据 -->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE user_id = #{id}
+	</delete>
+
+	<!-- 插入用户和角色关联表数据 -->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(user_id, role_id)
+		<foreach collection="roleList" item="role" separator=" union all ">
+			SELECT #{id}, #{role.id}
+			<if test="dbName != 'mssql'">
+			FROM dual
+			</if>
+		</foreach>
+	</insert>
+
+	<!-- 更新用户密码 -->
+	<update id="updatePasswordById">
+		UPDATE sys_user SET
+			password = #{password},
+			salt = #{salt}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 更新登录信息，如登录IP、登录时间 -->
+	<update id="updateLoginInfo">
+		UPDATE sys_user SET
+			login_ip = #{loginIp},
+			login_Date = #{loginDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 逻辑删除用户 -->
+	<update id="delete">
+		UPDATE sys_user SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

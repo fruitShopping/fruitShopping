@@ -1,0 +1,43 @@
+﻿@charset "utf-8";
+*{word-wrap:break-word}
+ul,ol,dl{list-style-type:none}
+/*禁用Webkit内核浏览器的文字大小调整功*/
+html,body,h1,h2,h3,h4,h5,h6,div,ul,ol,li,dl,dt,dd,iframe,textarea,input,button,p,strong,b,a,span,del,pre{margin:0; padding:0; -webkit-text-size-adjust:none; font-weight: normal;}
+html,body{*position:static; font-family:'微软雅黑', Helvetica, Arial, sans-serif;font-size:14px;}
+html{font-family: sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+input,button{overflow: visible;vertical-align:middle;outline:none!important}
+input[type="submit"],input[type="reset"],input[type="button"],input[type="text"],input[type="password"]{-webkit-appearance:none;outline:none!important}
+body{line-height:1.6}
+h1,h2,h3,h4,h5,h6{font-size:100%}
+a,area{outline:none!important;}
+a{text-decoration:none;cursor: pointer}
+a:hover{text-decoration:none;}
+a.ie6:hover{zoom:1}
+a:hover,a:active{outline:none!important;text-decoration:none!important;}
+i{
+	font-style:normal;
+}
+.fl{float:left;}
+.fr{float:right;}
+.clearfix:after{clear:both;content:".";display:block;height:0;line-height:0;visibility:hidden;}.clearfix{zoom:1;}
+.i-red{ color:#F00; font-weight:normal; display:inline-block; vertical-align:-3px;}
+textarea{
+	word-wrap: break-word; resize: none;
+}
+label{
+	font-weight:normal!important;
+}
+a:link{
+  text-decoration:none;
+}
+/*input,textarea,select{outline:none;}
+input[type=button]:focus,select:focus,input:focus,textarea:focus,button:focus{outline:none;!important}
+select::-moz-focus-inner{outline:0;}*/
+
+/*自定义分页颜色*/
+.table-main .layui-laypage .layui-laypage-curr .layui-laypage-em,.table-main .layui-laypage button{
+	background-color: #01cd78;
+	color:#fff;
+} 
