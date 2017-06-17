@@ -9,7 +9,7 @@
             var laypage = layui.laypage,
                 layer = layui.layer;
             laypage({
-                cont: 'userControlPage',
+                cont: 'controlPage',
                 pages: pageTotal,
                 skip: true,
                 curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取

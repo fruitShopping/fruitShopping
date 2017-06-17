@@ -4,13 +4,14 @@ import com.zcf.fruit.common.base.BaseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zjj-ideapad on 2015/3/26.
  */
-public class Role extends BaseEntity{
+public class Role extends BaseEntity implements Serializable{
     private static final long serialVersionUID = -8409287519824777806L;
     private Long id;
     private String role_name;

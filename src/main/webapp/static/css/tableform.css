@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+.filedList{
+	padding:15px 0px;
+}
+.filedList label,.filedList input{
+	display:inline-block;
+}
+.filedList label{
+	width:75px;
+	text-align:right;
+	font-size:14px;
+}
+.filedList input[type='text']{
+	width:360px;
+}

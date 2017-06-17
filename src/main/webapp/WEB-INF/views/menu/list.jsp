@@ -74,11 +74,16 @@
             </tbody>
         </table>
         <!--分页-->
-        <c:if test="${menuList.pageTotal > 1}">
-            <div class="table-page" id="userControlPage"></div>
-            </div>
-        </c:if>
-
+        <c:choose>
+            <c:when test="${menuList.pageTotal > 1}">
+                <div class="table-page" id="controlPage"></div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="table-page" id="controlPage" style="display: none;"></div>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <!--分页-->
 </div>
 </body>
@@ -87,11 +92,13 @@
 <script type="text/javascript" src="${ctx}/static/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/menu.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/checkBox.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/page.js"></script>
 <script type="text/javascript">
     $(function() {
         $menuControl.initMenu();
         $pageControl.initPage('${menuList.pageNum}','${url}','${menuList.pageTotal}');
+        $checkBoxControl.initCheckBox();
     });
 </script>
 </html>

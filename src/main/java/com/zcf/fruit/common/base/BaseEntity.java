@@ -4,12 +4,13 @@ import com.zcf.fruit.entity.user.User;
 import com.zcf.fruit.util.UserUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by zcf on 2017/6/13.
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable{
     private static final long serialVersionUID = 1L;
 
     protected String remarks;	// 备注
