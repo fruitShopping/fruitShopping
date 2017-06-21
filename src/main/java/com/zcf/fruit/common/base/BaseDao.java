@@ -63,7 +63,7 @@ public interface BaseDao<T> {
      * @return
      */
     @Deprecated
-    public int delete(String id);
+    public int delete(int id);
 
     /**
      * 删除数据（一般为逻辑删除，更新del_flag字段为1）

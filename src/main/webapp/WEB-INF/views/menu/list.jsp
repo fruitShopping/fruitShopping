@@ -22,7 +22,7 @@
 <div class="table-main">
     <!--操作按钮组-->
     <div class="response-head titlePanel">
-        <div class="toolbar">
+       <div class="toolbar">
             <div class="btn-group">
                 <a id="ul-add" class="btn btn-info" href="${ctx}/back/menu/add">
                     <i class="fa fa-plus"></i>&nbsp;新增
@@ -58,7 +58,8 @@
             <c:forEach items="${menuList.dates}" var="menu">
                 <tr>
                     <td>
-                        <input type="checkbox" name="checkbox" vlaue="" /></td>
+                        <input type="checkbox" name="checkbox" value="${menu.id}"/>
+                    </td>
                     <td>${menu.name}</td>
                     <td>${menu.parent.name}</td>
                     <td>${menu.href}</td>
@@ -98,7 +99,7 @@
 <script type="text/javascript" src="${ctx}/static/js/page.js"></script>
 <script type="text/javascript">
     $(function() {
-        $menuControl.initMenu();
+        $menuControl.initMenu('${ctx}');
         $pageControl.initPage('${menuList.pageNum}','${url}','${menuList.pageTotal}');
         $checkBoxControl.initCheckBox();
         $scroll.initScroll();

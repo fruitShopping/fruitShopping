@@ -30,15 +30,33 @@ function layer_show(title,url,w,h){
 	});
 };
 
-//用户管理删除弹窗
-function delConfig(obj){
+//菜单管理删除弹窗
+function menuDelConfig(obj,ctx){
 	layer.confirm('确认删除该条记录吗？', {
 		     title: '提示',
 	         icon:2,
              btn: ['确定','关闭'],
-	         yes:function(){ 
-				 obj.remove();//前台删除还需要后台删除
-                 layer.msg('删除成功', {icon: 1,time: 1000});
+	         yes:function(){
+				 var num  = obj.size();
+				 var ids= '';
+				 for(var i=0;i<num;i++){
+					 var that = $(obj[i]).find("input[type=checkbox]")[0];
+					 ids = ids + $(that).val() +',';
+				 }
+				 $.ajax({
+					 type:"POST",
+					 url:ctx+"/back/menu/delete",
+					 data:{ids:ids},
+					 success:function(data){
+						 if(data){
+							 layer.msg('删除成功', {icon: 1,time: 1000});
+							 fram.location.reload();
+						 }else{
+							 layer.msg('删除失败', {icon: 1,time: 1000});
+						 }
+					 }
+				 });
+
 	         }
 	});  
 };

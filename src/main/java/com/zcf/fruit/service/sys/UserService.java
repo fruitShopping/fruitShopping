@@ -83,6 +83,9 @@ public class UserService {
         return flag;
     }
 
+    public User findUserByUsername(String username){
+        return userDao.findByUsername(username);
+    }
     public int findUserByUserName(String username,String password)
     {
         return userDao.findUserByUserName(username,password);

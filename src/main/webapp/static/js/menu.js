@@ -3,22 +3,23 @@
  **/
 (function(window){
     var  u = {};
-    u.initMenu = function(){
-        this.bindClick();//绑定事件
+    u.initMenu = function(ctx){
+        this.bindClick(ctx);//绑定事件
     };
     //绑定事件
-    u.bindClick = function(){
+    u.bindClick = function(ctx){
         $(".queryCondition").each(function() {//下拉选择
             $(this).Bsselect();
         });
         $.fn.tableSelected();//表单选中样式
         // $.fn.tableCheckBox();//复选框选中样式
         /*新增*/
-        $("#ul-add").click(function(){
+        $("#ul-edit").click(function(){
             var isSelected = $(".listTable .tr-green").length;//是否选中
             if(isSelected){
-                var title = "用户管理",url="Content/useradd.html",w=780,h=500;
-                parent.layer_show(title,url,w,h);
+                var that = $(".listTable .tr-green").find("input[type=checkbox]")[0];
+                var idss = $(that).val();
+                window.location.href = ctx+"/back/menu/edit?id="+idss;
             }else{
                 layer.msg('您没有选中如何数据请选择后操作', {time:2000, icon:0});
             }
@@ -28,7 +29,7 @@
             var isSelected = $(".listTable .tr-green").length;//是否选中
             if(isSelected){
                 var obj = $(".listTable .tr-green");//选中的tr
-                parent.delConfig(obj);
+                parent.menuDelConfig(obj,ctx);
             }else{
                 layer.msg('您没有选中如何数据请选择后操作', {time:2000, icon:0});
             }

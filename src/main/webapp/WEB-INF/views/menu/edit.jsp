@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: zcf
-  Date: 2017/6/17
-  Time: 16:12
+  Date: 2017/6/20
+  Time: 22:35
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -33,37 +33,39 @@
 <h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/menu/menuList"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
 <div class="form-table">
     <form class="registerform" id="addMenuform" action="${ctx}/back/menu/save">
+        <%--<input type="hidden" name="sort" value="${menu.sort}"/>--%>
+        <input type="hidden" name="id" value="${menu.id}"/>
         <div class="basicInfo ui-box">
             <h3>基本信息</h3>
             <div class="filedList">
                 <label>菜单名称</label>
                 <input type="text" class="form-control inputXt" placeholder="菜单名称" name="name"
-                       auto_color_flag="true" datatype="*" nullmsg="请输入菜单名称!" />
+                       auto_color_flag="true" datatype="*" nullmsg="请输入菜单名称!" value="${menu.name}"/>
             </div>
             <div class="filedList">
                 <label>父级菜单</label>
-                <select class="form-control inputXt" name="parentId" auto_color_flag="true" datatype="*" nullmsg="请选择父菜单!">
+                <select class="form-control inputXt" name="parentId" id="parentId" auto_color_flag="true" datatype="*" nullmsg="请选择父菜单!">
                     <option value="">---请选择---</option>
-                    <c:forEach items="${menuList}" var="menu">
-                        <option value="${menu.id}">${menu.name}</option>
+                    <c:forEach items="${menuList}" var="menu2">
+                        <option value="${menu2.id}">${menu2.name}</option>
                     </c:forEach>
                 </select>
             </div>
             <div class="filedList">
                 <label>请求路径</label>
-                <input type="text" class="form-control inputXt" placeholder="请求路径" name="href"/>
+                <input type="text" class="form-control inputXt" placeholder="请求路径" name="href" value="${menu.href}"/>
             </div>
             <div class="filedList">
                 <label>图标样式</label>
-                <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon"/>
+                <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon" value="${menu.icon}"/>
             </div>
             <div class="filedList">
                 <label>菜单级别</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="0"/>
+                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="${menu.sort}"/>
             </div>
             <div class="filedList">
                 <label>是否显示</label>
-                <select class="form-control inputXt" name="isShow">
+                <select class="form-control inputXt" name="isShow" id="isShow">
                     <option value="0">是</option>
                     <option value="1">否</option>
                 </select>
@@ -94,9 +96,7 @@
         $menuOperate.initMenuAddOrEdit('${ctx}');
         $scroll.initScroll();
     });
-
-
+    $("#isShow").val('${menu.isShow}');
+    $("#parentId").val('${menu.parentId}');
 </script>
-
 </html>
-

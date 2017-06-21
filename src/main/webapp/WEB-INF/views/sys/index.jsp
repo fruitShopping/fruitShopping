@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE HTML>
@@ -26,27 +27,27 @@
     <nav class="navbar">
         <div class="userInfo">
             <img src="${ctx}/static/images/user2-160x160.jpg" class="img-circle"/>
-            <span class="infoName">张晓龙</span>|<a href="javascript:;" class="editPass">修改密码</a>
-            <span class="text-algin">欢迎，<d>张晓龙</d>进入鲜惠商城后台管理系统！</span>
+            <span class="infoName"><shiro:principal/></span>|<a href="javascript:;" class="editPass">修改密码</a>
+            <span class="text-algin">欢迎，<d><shiro:principal/></d>进入点鲜果后台管理系统！</span>
         </div>
         <div class="systemInfo">
             <ul>
                 <li>
                     <a href="javascript:;">
                         <i class="iconzy icon-fruit"></i>
-                        <span>水果商铺</span>
+                        <span>商城首页</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:;">
                         <i class="iconzy icon-shop"></i>
-                        <span>水果商铺</span>
+                        <span>我的商铺</span>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;">
+                    <a href="${ctx}/logout">
                         <i class="iconzy icon-close"></i>
-                        <span>水果商铺</span>
+                        <span>退出</span>
                     </a>
                 </li>
             </ul>

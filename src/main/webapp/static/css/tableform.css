@@ -3,7 +3,7 @@
 .filedList{
 	padding:15px 0px;
 }
-.filedList label,.filedList input{
+.filedList label,.filedList input,.filedList select{
 	display:inline-block;
 }
 .filedList label{
@@ -11,6 +11,6 @@
 	text-align:right;
 	font-size:14px;
 }
-.filedList input[type='text']{
+.filedList input[type='text'],.filedList select{
 	width:360px;
 }

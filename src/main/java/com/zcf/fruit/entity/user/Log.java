@@ -18,6 +18,7 @@ import java.util.Map;
 public class Log extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String type; 		// 日志类型（1：接入日志；2：错误日志）
 	private String title;		// 日志标题
 	private String remoteAddr; 	// 操作用户的IP地址
@@ -33,6 +34,14 @@ public class Log extends BaseEntity {
 	// 日志类型（1：接入日志；2：错误日志）
 	public static final String TYPE_ACCESS = "1";
 	public static final String TYPE_EXCEPTION = "2";
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getType() {
 		return type;

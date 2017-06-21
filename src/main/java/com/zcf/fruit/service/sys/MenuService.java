@@ -1,9 +1,12 @@
 package com.zcf.fruit.service.sys;
 
+import com.zcf.fruit.common.utils.CacheUtils;
 import com.zcf.fruit.dao.mysqlDao.user.MenuDao;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
 import com.zcf.fruit.entity.user.Menu;
+import com.zcf.fruit.util.LogUtils;
+import com.zcf.fruit.util.UserUtils;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -30,5 +33,53 @@ public class MenuService {
         totalPage += total%page.getSize() > 0 ? 1:0;
         menuIfPage.setPageTotal(totalPage);
         return menuIfPage;
+    }
+
+    public List<Menu> findAllList(String username){
+        return menuDao.findAllList(username);
+    }
+
+    public Menu selectById(int id){
+        return menuDao.get(id);
+    }
+
+    public void save(Menu menu){
+        int menuId = menu.getId();
+        // 获取修改前的parentIds，用于更新子节点的parentIds
+        String oldParentIds = menu.getParentIds();
+
+        // 设置新的父节点串
+        menu.setParentIds(menu.getParent().getParentIds()+menu.getParent().getId()+",");
+        if(menuId == 0){
+            //新增
+            menu.preInsert();
+            menuDao.insert(menu);
+        }else{
+            //修改
+            menu.preUpdate();
+            menuDao.update(menu);
+        }
+
+        // 更新子节点 parentIds
+        Menu m = new Menu();
+        m.setParentIds("%,"+menu.getId()+",%");
+        List<Menu> list = menuDao.findByParentIdsLike(m);
+        for (Menu e : list){
+            e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
+            menuDao.updateParentIds(e);
+        }
+        // 清除用户菜单缓存
+        UserUtils.removeCache(UserUtils.CACHE_MENU_LIST);
+
+        // 清除日志相关缓存
+        CacheUtils.remove(LogUtils.CACHE_MENU_NAME_PATH_MAP);
+    }
+
+    public void delete(String ids){
+        String idss= ids.substring(0,ids.length()-1);
+        String[] idsArr = idss.split(",");
+        for(String id : idsArr){
+            menuDao.delete(Integer.parseInt(id));
+        }
     }
 }
