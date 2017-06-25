@@ -61,13 +61,19 @@
     <section class="sidebar">
         <ul class="sidebar-menu">
             <c:forEach items="${menuList}" var="menu">
+                <c:set var="isDone" value="0"></c:set>
                 <c:if test="${menu.parentId == 1&&menu.isShow eq '0'}">
                     <li class="treeview">
                         <a href="javascript:void(0)">
                             <i class="${menu.icon}"></i>
                             <span>${menu.name}</span>
                             <span class="pull-right-container">
-                              <i class="fa fa-angle-right"></i>
+                                <c:forEach items="${menuList}" var="menu3">
+                                    <c:if test="${menu2.parentId eq menu.id&&menu2.isShow eq '0' &&  isDone == 0  }">
+                                        <i class="fa fa-angle-right"></i>
+                                        <c:set var="isDone" value="1" scope="page"></c:set>
+                                    </c:if>
+                                </c:forEach>
                             </span>
                         </a>
                         <ul class="treeview-menu">
@@ -92,6 +98,14 @@
     </div>
 </section>
 <!--中间部分-->
+<div disabled="none">
+    <div style="margin-left:10px;" id="treeDiv">
+        <div class="zTreeDemoBackground left" style="overflow:auto;">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+</div>
+
 <footer class="footer">
     <p>张超锋@版权所有</p>
 </footer>

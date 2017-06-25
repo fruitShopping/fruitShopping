@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zcf on 2017/6/16.
@@ -85,7 +86,7 @@ public class MenuController {
             }
         }else{
             // 记录登录日志
-            LogUtils.saveLog(Servlets.getRequest(), "菜单更新");
+            LogUtils.saveLog(Servlets.getRequest(), "菜单信息更新");
             logger.info("MenuController update : update menu");
         }
         menuService.save(menu);
@@ -111,5 +112,13 @@ public class MenuController {
             logger.error("MenuController delete Exception:"+e.getMessage());
         }
         return flag;
+    }
+
+    @RequestMapping("/menuTree")
+    @ResponseBody
+    public List<Map<Object,Object>> menuTree(@RequestParam("roleId") int roleId){
+        List<Map<Object,Object>> menuTree =  menuService.getMenuTree(roleId);
+
+        return menuTree;
     }
 }

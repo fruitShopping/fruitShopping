@@ -24,4 +24,17 @@ public interface RoleDao extends BaseDao<Role> {
     public Role findOne(@Param("id") int roleId);
 
     public List<Role> findListByUser(@Param("user") User user);
+
+    public void insertRoleAndUser(@Param("userId") long userId,
+                                  @Param("roleId") int roleId);
+
+    public void deleteUserAndRole(@Param("userId") long userId);
+
+    public void delRoleAllMenu(@Param("roleId") int roleId);
+
+    public void addRoleAndMenu(@Param("menuId") int menuId,
+                               @Param("roleId") int roleId);
+
+    public void delOneRoleAndMenu(@Param("menuId") int menuId,
+                                  @Param("roleId") int roleId);
 }

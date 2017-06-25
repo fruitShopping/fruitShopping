@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}/${adminPath}"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -28,48 +28,23 @@
 </head>
 
 <body>
-<h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/menu/menuList"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
+<h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/role/list"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
 <div class="form-table">
-    <form class="registerform" id="addMenuform" action="${ctx}/back/menu/save">
+    <form class="registerform" id="addRoleform" action="${ctx}/back/role/save" method="post">
         <div class="basicInfo ui-box">
             <h3>基本信息</h3>
             <div class="filedList">
-                <label>菜单名称</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单名称" name="name"
-                       auto_color_flag="true" datatype="*" nullmsg="请输入菜单名称!" />
+                <label>角色名称</label>
+                <input type="text" class="form-control inputXt" placeholder="角色名称" name="description"/>
             </div>
             <div class="filedList">
-                <label>父级菜单</label>
-                <select class="form-control inputXt" name="parentId" auto_color_flag="true" datatype="*" nullmsg="请选择父菜单!">
-                    <option value="">---请选择---</option>
-                    <c:forEach items="${menuList}" var="menu">
-                        <option value="${menu.id}">${menu.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="filedList">
-                <label>请求路径</label>
-                <input type="text" class="form-control inputXt" placeholder="请求路径" name="href"/>
-            </div>
-            <div class="filedList">
-                <label>图标样式</label>
-                <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon"/>
-            </div>
-            <div class="filedList">
-                <label>菜单级别</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="0"/>
-            </div>
-            <div class="filedList">
-                <label>是否显示</label>
-                <select class="form-control inputXt" name="isShow">
-                    <option value="0">是</option>
-                    <option value="1">否</option>
-                </select>
+                <label>角色编码</label>
+                <input type="text" class="form-control inputXt" placeholder="角色编码" name="roleName"/>
             </div>
         </div>
         <!--提交取消-->
         <div class="bus-ground-btn">
-            <a id="addMenuform_btn" class="btn btn-enter">&nbsp;确定</a>
+            <a id="addRoleform_btn" class="btn btn-enter">&nbsp;确定</a>
             <button id="reset_btn" type="reset" class="btn btn-white" onclick="JavaScript :history.back(-1)">&nbsp;取消</button>
         </div>
         <!--提交取消-->
@@ -78,19 +53,17 @@
 
 </body>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery-2.2.3.min.js"></script>
-<%--<script type="text/javascript" src="${ctx}/static/zTreeStyle/jquery.ztree.core.js"></script>--%>
-<%--<script type="text/javascript" src="${ctx}/static/zTreeStyle/jquery.ztree.excheck.js"></script>--%>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery.nicescroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/lib/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="${ctx}/static/plugins/ichecked/jquery.icheck.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/popup.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/commonForm.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/menuAddOrEdit.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/scroll.js"></script>
 <script type="text/javascript">
     $(function(){
-        $menuOperate.initMenuAddOrEdit('${ctx}');
         $scroll.initScroll();
+        $("#addRoleform_btn").click(function(){
+            $("#addRoleform").submit();
+        });
     });
 
 

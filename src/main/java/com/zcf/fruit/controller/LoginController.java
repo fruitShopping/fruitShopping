@@ -4,7 +4,6 @@ package com.zcf.fruit.controller;
 import com.zcf.fruit.common.config.Global;
 import com.zcf.fruit.common.utils.CookieUtils;
 import com.zcf.fruit.common.utils.StringUtils;
-import com.zcf.fruit.shiroRealm.MyShiroRealm;
 import com.zcf.fruit.util.UserUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.Collection;
 
 /**
@@ -50,7 +48,7 @@ public class LoginController {
             }
         }
 
-        return "sys/index";
+        return "redirect:/back/index";
     }
 
     /**
@@ -81,7 +79,7 @@ public class LoginController {
 
         // 如果已经登录，则跳转到管理首页
         if(username != null && username != ""){
-            return "redirect:/index";
+            return "redirect:/back/index";
         }
 
         return "sys/login";
@@ -96,7 +94,7 @@ public class LoginController {
 
         // 如果已经登录，则跳转到管理首页
         if(username != null && username != ""){
-            return "redirect:/index";
+            return "redirect:/back/index";
         }
 
         username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
@@ -109,7 +107,7 @@ public class LoginController {
         } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
             error = "用户名/密码错误";
         } else if(LockedAccountException.class.getName().equals(exceptionClassName)){
-            error = "用户名锁定";
+            error = "用户已锁定，禁止登陆";
         } else if(exceptionClassName != null) {
             error = "其他错误：" + exceptionClassName;
         }

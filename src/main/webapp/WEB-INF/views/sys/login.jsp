@@ -5,24 +5,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>欢迎您登陆</title>
-    <link href="${pageContext.request.contextPath}/resources/static/css/reset.css" rel="stylesheet" type="text/css"/>
-    <link href="${pageContext.request.contextPath}/resources/static/css/pubic.css" rel="stylesheet" type="text/css"/>
     <style>
         .error{color:red}
     </style>
 </head>
 
 <body>
-    <%--<div id="header">--%>
-        <%--<img class="left" src="${pageContext.request.contextPath}/resources/static/image/logo-yd.png" />--%>
-        <%--<img class="left" src="${pageContext.request.contextPath}/resources/static/image/logo-fc.png" />--%>
-        <%--<img class="right" src="${pageContext.request.contextPath}/resources/static/image/logo66.png" />--%>
-    <%--</div>--%>
-    <jsp:include page="../body/logo.jsp"/>
     <div id="ad">
         <form class="form-vertical login-form" id="form" method="POST" action="">
             <div class="login">
-                <img src="${pageContext.request.contextPath}/resources/static/image/ad-txt.png" />
                 <div class="error">
                     <span class="error">${error}</span>
                 </div>

@@ -1,5 +1,6 @@
 package com.zcf.fruit.service.sys;
 
+import com.zcf.fruit.dao.mysqlDao.user.RoleDao;
 import com.zcf.fruit.dao.mysqlDao.user.UserDao;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
@@ -11,28 +12,35 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
+ * 用户信息
  * Created by zjj-ideapad on 2015/3/26.
  */
 @Service
 public class UserService {
 
-    public IfPage<User> getUsersList(Page page,String username){
-        IfPage<User> moTableIfPage = new IfPage<User>();
-        moTableIfPage.setPageNum(page.getCurrentPage());
-        List<User> usersList = null;
+    /**
+     * 用户信息分页查询
+     * @param page 分页
+     * @param username 用户名
+     * @param mobile 手机号码
+     * @return
+     */
+    public IfPage<User> getUsersList(Page page,String username,String mobile){
+        IfPage<User> userListIfPage = new IfPage<User>();
+        userListIfPage.setPageNum(page.getCurrentPage());
         if(page.getCurrentPage() == 1){
             page.setBegin(0);
         }
 
-        usersList = userDao.getUsersList(page,username);
-        moTableIfPage.setDates(usersList);
+        List<User> usersList = userDao.getUsersList(page,username,mobile);
+        userListIfPage.setDates(usersList);
 
         //数据总数
-        int total = userDao.getUsersListTotal(username);
+        int total = userDao.getUsersListTotal(username,mobile);
         int totalPage = total/page.getSize();
         totalPage += total%page.getSize() > 0 ? 1:0;
-        moTableIfPage.setPageTotal(totalPage);
-        return  moTableIfPage;
+        userListIfPage.setPageTotal(totalPage);
+        return  userListIfPage;
 
     }
 
@@ -47,10 +55,17 @@ public class UserService {
         return flag;
     }
 
-    public Boolean userDel(Long userId){
+    public Boolean userDel(String userIds){
         boolean flag = false;
         try{
-            userDao.userDel(userId);
+            userIds = userIds.substring(0,userIds.length()-1);
+            String[] userIdArr = userIds.split(",");
+            for(String userId : userIdArr){
+                userDao.userDel(Long.parseLong(userId));
+                //删除用户与角色关系
+                roleDao.deleteUserAndRole(Long.parseLong(userId));
+            }
+
             flag = true;
         }catch (Exception e){
             e.printStackTrace();
@@ -63,12 +78,27 @@ public class UserService {
         return user;
     }
 
-    public Boolean doEditUser(User user,String backupPassword,Long userId){
+    public void save(User user){
+        PasswordHelper passwordHelper = new PasswordHelper();
+        //加密密码
+        passwordHelper.encryptPassword(user);
+        user.preInsert();
+        userDao.insert(user);
+        User user2 = userDao.findByUsername(user.getUsername());
+        long userId = user2.getId();
+        //添加角色关系
+        String roleIds = user.getRoleIdsStr();
+        String[] roleIdArr = roleIds.split(",");
+        for(String  roleId : roleIdArr){
+            roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
+        }
+    }
+    public Boolean doEditUser(User user){
         boolean flag = false;
         String password = user.getPassword();
-        user.setId(userId);
+        String oldPassword = user.getOldPassword();
         try {
-            if (password.equals(backupPassword)) {
+            if (password.equals(oldPassword)) {
                 userDao.update(user);
             } else {
                 PasswordHelper passwordHelper = new PasswordHelper();
@@ -76,6 +106,17 @@ public class UserService {
                 passwordHelper.encryptPassword(user);
                 userDao.update(user);
             }
+            //更新用户角色关系
+            long userId = user.getId();
+            //删除用户与角色关系
+            roleDao.deleteUserAndRole(userId);
+            //添加用户与角色关系
+            String roleIds = user.getRoleIdsStr();
+            String[] roleIdArr = roleIds.split(",");
+            for(String  roleId : roleIdArr){
+                roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
+            }
+
             flag = true;
         }catch (Exception e){
             e.printStackTrace();
@@ -92,4 +133,7 @@ public class UserService {
     }
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private RoleDao roleDao;
 }

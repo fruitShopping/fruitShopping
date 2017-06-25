@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="${ctx}/static/css/jquery.mCustomScrollbar.css"/>
 <link rel="stylesheet" href="${ctx}/static/fontImg/iconfont.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/static/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}/static/zTreeStyle/zTreeStyle.css">
 <!--[if lt IE 9]>
 <script type="text/javascript" src="${ctx}/static/js/lib/html5.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/lib/respond.min.js"></script>

@@ -13,7 +13,7 @@
         });
         $.fn.tableSelected();//表单选中样式
         // $.fn.tableCheckBox();//复选框选中样式
-        /*新增*/
+        /*更新*/
         $("#ul-edit").click(function(){
             var isSelected = $(".listTable .tr-green").length;//是否选中
             if(isSelected){
@@ -29,7 +29,7 @@
             var isSelected = $(".listTable .tr-green").length;//是否选中
             if(isSelected){
                 var obj = $(".listTable .tr-green");//选中的tr
-                parent.menuDelConfig(obj,ctx);
+                parent.delConfig(obj,ctx,"/back/menu/delete");
             }else{
                 layer.msg('您没有选中如何数据请选择后操作', {time:2000, icon:0});
             }

@@ -1,35 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zcf.fruit.dao.mysqlDao.user.RoleDao">
+	<sql id="roleColumns">
+		r.id,
+		r.role_name AS  roleName,
+		r.description,
+		r.authority_ids AS authorityIdsStr
+	</sql>
 	<select id="findAllList" resultType="Role">
-		SELECT * FROM sys_role
-		WHERE del_flag = #{user.DEL_FLAG_NORMAL}
-		ORDER BY name
+		SELECT
+		<include refid="roleColumns"/>
+		FROM sys_role r
+		WHERE r.del_flag = '0'
+		ORDER BY r.role_name
 	</select>
 
 	<select id="findOneByName" resultType="Role">
-		SELECT id, role_name, description, authority_ids AS authorityIdsStr FROM sys_role WHERE role=#{roleName}
+		SELECT
+		<include refid="roleColumns"/>
+		FROM sys_role r WHERE r.role_name=#{roleName}
 	</select>
 	<select id="findUserRoleId" resultType="java.lang.Integer">
 		SELECT role_id from sys_user_role WHERE user_id = #{userId}
 	</select>
 	<select id="findOne" resultType="Role">
-		SELECT id, role_name, description, authority_ids AS authorityIdsStr FROM sys_role WHERE id=#{id}
+		SELECT
+		<include refid="roleColumns"/>
+		 FROM sys_role r WHERE r.id=#{id} AND r.del_flag = '0'
 	</select>
 
 	<select id="findListByUser" resultType="Role">
 		SELECT <!-- DISTINCT -->
-		a.*
-		FROM sys_role a
-		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
+		<include refid="roleColumns"/>
+		FROM sys_role r
+		LEFT JOIN sys_user_role ur ON ur.role_id = r.id
 		LEFT JOIN sys_user u ON u.id = ur.user_id
-		WHERE a.del_flag = #{user.DEL_FLAG_NORMAL}
+		WHERE r.del_flag = '0'
 		<if test="user != null and user.id != null and user.id != 0">
 			AND u.id = #{user.id}
 		</if>
 		<if test="user != null and user.username != null and user.username != ''">
 			AND u.username = #{user.username}
 		</if>
-		ORDER BY a.role_name
+		ORDER BY r.role_name
 	</select>
+
+	<insert id="insert">
+		INSERT INTO sys_role
+		(role_name,description) VALUES (#{roleName},#{description})
+	</insert>
+
+	<update id="update">
+		UPDATE sys_role SET role_name=#{roleName},description=#{description} WHERE id=#{id}
+	</update>
+
+	<update id="delete">
+		UPDATE sys_role SET del_flag='1' WHERE id=#{id}
+	</update>
+
+	<insert id="insertRoleAndUser">
+		INSERT INTO sys_user_role
+		(user_id,role_id) VALUES (#{userId},#{roleId})
+	</insert>
+
+	<delete id="deleteUserAndRole">
+		DELETE FROM sys_user_role WHERE user_id = #{userId}
+	</delete>
+
+	<delete id="delRoleAndMenu">
+		DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+	</delete>
+	<delete id="delOneRoleAndMenu">
+		DELETE FROM sys_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+	</delete>
+	<insert id="addRoleAndMenu">
+		INSERT INTO sys_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
+	</insert>
 </mapper>

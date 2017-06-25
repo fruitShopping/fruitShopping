@@ -29,10 +29,7 @@ public interface MenuDao extends BaseDao<Menu> {
 
     public List<Menu> findByParentIdsLike(Menu menu);
 
-    @Select("SELECT m.id,m.menu_name AS name,m.parent_id AS pId," +
-            " CASE (SELECT count(*) from sys_role_menu WHERE role_id = #{roleId} AND menu_id = m.id)" +
-            " WHEN 1 THEN 'true' else 'false' end AS checked FROM sys_menu m")
-    public List<Map<Object,Object>> menuTree(@Param("roleId") int roleId);
+    public List<Map<Object,Object>> getMenuTree(@Param("roleId") int roleId);
 
     public List<Menu> findAllList(@Param("username") String username);
 }

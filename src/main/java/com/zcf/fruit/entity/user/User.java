@@ -24,14 +24,18 @@ public class User extends BaseEntity implements Serializable {
     private String loginIp;	// 最后登陆IP
     private Date loginDate;	// 最后登陆日期
     private String photo;	// 头像
+    private String email; //邮箱
 
     private String oldLoginName;// 原登录名
-    private String newPassword;	// 新密码
+    private String oldPassword;	// 新密码
 
     private String oldLoginIp;	// 上次登陆IP
     private Date oldLoginDate;	// 上次登陆日期
+    private String roleNames;//用户角色字符串
+    private String roleIdsStr;//用户角色ID字符串
     private List<Integer> roleIds; //拥有的角色列表
     private  Boolean locked = Boolean.FALSE;//锁
+    private String isShow;
 
     private Role role;	// 根据角色查询用户条件
     private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
@@ -109,6 +113,14 @@ public class User extends BaseEntity implements Serializable {
         this.salt = salt;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public List<Integer> getRoleIds() {
         if(roleIds == null) {
             roleIds = new ArrayList<Integer>();
@@ -164,12 +176,12 @@ public class User extends BaseEntity implements Serializable {
         this.oldLoginName = oldLoginName;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getOldPassword() {
+        return oldPassword;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getOldLoginIp() {
@@ -204,11 +216,35 @@ public class User extends BaseEntity implements Serializable {
         this.roleList = roleList;
     }
 
+    public String getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
+
+    public String getRoleIdsStr() {
+        return roleIdsStr;
+    }
+
+    public void setRoleIdsStr(String roleIdsStr) {
+        this.roleIdsStr = roleIdsStr;
+    }
+
     public boolean isAdmin(){
         return isAdmin(this.id);
     }
 
     public static boolean isAdmin(long id){
         return id != 0 && id == 1;
+    }
+
+    public String getIsShow() {
+        return isShow;
+    }
+
+    public void setIsShow(String isShow) {
+        this.isShow = isShow;
     }
 }

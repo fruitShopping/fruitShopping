@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zcf on 2017/6/16.
@@ -23,6 +24,9 @@ public class MenuService {
     public IfPage<Menu> findList(Page page){
         IfPage<Menu> menuIfPage = new IfPage<Menu>();
         menuIfPage.setPageNum(page.getCurrentPage());
+        if(page.getCurrentPage() == 1){
+            page.setBegin(0);
+        }
 
         List<Menu> menuList = menuDao.findList(page);
         menuIfPage.setDates(menuList);
@@ -81,5 +85,14 @@ public class MenuService {
         for(String id : idsArr){
             menuDao.delete(Integer.parseInt(id));
         }
+    }
+
+    /**
+     * 角色赋权查询菜单树形结构
+     * @param roleId 角色ID
+     * @return 返回值
+     */
+    public List<Map<Object,Object>> getMenuTree(int roleId){
+        return menuDao.getMenuTree(roleId);
     }
 }

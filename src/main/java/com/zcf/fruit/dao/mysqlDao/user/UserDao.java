@@ -23,9 +23,9 @@ public interface UserDao{
 
     public String findByRoleIds(@Param("username") String username);
 
-    public List<User> getUsersList(@Param("page") Page page,@Param("username") String username);
+    public List<User> getUsersList(@Param("page") Page page,@Param("username") String username,@Param("mobile") String mobile);
 
-    public int getUsersListTotal(@Param("username") String username);
+    public int getUsersListTotal(@Param("username") String username,@Param("mobile") String mobile);
 
     public void doLocked(@Param("userId") Long userId,@Param("num") int num);
 
@@ -36,5 +36,7 @@ public interface UserDao{
     public int findUserByUserName(@Param("username") String username,
                                    @Param("password") String password);
 
-    public User update(@Param("user") User user);
+    public void update(User user);
+
+    public long insert(User user);
 }

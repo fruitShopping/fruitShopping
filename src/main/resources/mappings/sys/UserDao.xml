@@ -22,30 +22,40 @@
 		u.update_date AS updateDate ,
 		u.del_flag AS delFlag
 	</sql>
+	<sql id="menuJoins">
+		LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+		LEFT JOIN sys_role r ON r.id = ur.role_id
+	</sql>
 	<!-- 根据用户名查询用户 -->
 	<select id="findByUsername" resultMap="User">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = 0
+		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
 	</select>
 
 	<!-- 根据登录名查询用户角色 -->
 	<select id="findByRoleIds">
 		SELECT r.authority_ids FROM sys_user u,sys_role r,sys_user_role ur
 		 WHERE r.id = ur.role_id AND ur.user_id = u.id" +
-		 AND u.username = #{username} AND a.del_flag = 0
+		 AND u.username = #{username} AND a.del_flag = '0'
 	</select>
 
 	<!-- 根据登录名查询用户列表 -->
 	<select id="getUsersList" resultType="User">
 		SELECT
-		<include refid="userColumns"/>
+		<include refid="userColumns"/>,
+		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
 		FROM sys_user u
-		WHERE u.del_flag = 0
+		<include refid="menuJoins"/>
+		WHERE u.del_flag = '0'
 		<if test="username != '' and username != null">
 			AND u.username like CONCAT('%', #{username}, '%')
 		</if>
-		ORDER BY u.id DESC limit #{begin},#{size}
+		<if test="mobile != '' and mobile != null">
+			AND u.telephone = #{mobile}
+		</if>
+		GROUP BY u.username
+		ORDER BY u.id DESC limit #{page.begin},#{page.size}
 	</select>
 
 	<!-- 查询全部用户数目 -->
@@ -53,9 +63,12 @@
 		SELECT
 			COUNT(1)
 		FROM sys_user u
-		WHERE u.del_flag = 0
+		WHERE u.del_flag = '0'
 		<if test="username != '' and username != null">
 			AND u.username like CONCAT('%', #{username}, '%')
+		</if>
+		<if test="mobile != '' and mobile != null">
+			AND u.telephone = #{mobile}
 		</if>
 	</select>
 
@@ -66,14 +79,17 @@
 
 	<!-- 删除用户 -->
 	<select id="userDel" >
-		UPDATE sys_user set del_flag = 1 WHERE id = #{userId}
+		UPDATE sys_user set del_flag = '1' WHERE id = #{userId}
 	</select>
 
 	<!-- 根据用户ID查询用户 -->
 	<select id="findByUserId" resultType="User">
 		SELECT
-		<include refid="userColumns"/>
-		 FROM sys_user u WHERE u.id = #{userId} AND u.del_flag = 0
+		<include refid="userColumns"/>,
+		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
+		 FROM sys_user u
+		<include refid="menuJoins"/>
+		WHERE u.id = #{userId} AND u.del_flag = '0'
 	</select>
 
 	<!-- 根据用户名和密码查询用户 -->
@@ -82,7 +98,7 @@
 	</select>
 
 	<!-- 插入用户 -->
-	<insert id="insert">
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sys_user(
 			username,
 			password,
@@ -90,8 +106,10 @@
 			real_name,
 			identity_card_num,
 			salt,
-			addTime,
+			add_time,
 			photo,
+			email,
+			locked,
 			create_by,
 			create_date,
 			remarks
@@ -99,12 +117,14 @@
 			#{username},
 			#{password},
 			#{telephone},
-			#{real_name},
-			#{identity_card_num},
+			#{realName},
+			#{identityCardNum},
 			#{salt},
-			#{addTime},
+			now(),
 			#{photo},
-			#{createBy.id},
+			#{email},
+			#{locked},
+			#{createBy},
 			#{createDate},
 			#{remarks}
 		)
@@ -116,12 +136,14 @@
 			username = #{username},
 			password = #{password},
 			telephone = #{telephone},
-			real_name = #{real_name},
-			identity_card_num = #{identity_card_num},
+			real_name = #{realName},
+			identity_card_num = #{identityCardNum},
 			salt = #{salt},
 			photo = #{photo},
+			email = #{email},
+			locked = #{locked},
 			remarks = #{remarks},
-			update_by = #{updateBy.id},
+			update_by = #{updateBy},
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>

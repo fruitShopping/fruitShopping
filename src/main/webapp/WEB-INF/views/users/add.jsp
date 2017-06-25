@@ -1,13 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: zcf
-  Date: 2017/6/17
-  Time: 16:12
+  Date: 2017/6/21
+  Time: 22:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}/${adminPath}"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -28,39 +28,48 @@
 </head>
 
 <body>
-<h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/menu/menuList"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
+<h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/users/userList"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
 <div class="form-table">
-    <form class="registerform" id="addMenuform" action="${ctx}/back/menu/save">
+    <form class="registerform" id="userForm" action="${ctx}/back/users/save" method="post">
         <div class="basicInfo ui-box">
-            <h3>基本信息</h3>
+            <h3>用户基本信息</h3>
             <div class="filedList">
-                <label>菜单名称</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单名称" name="name"
-                       auto_color_flag="true" datatype="*" nullmsg="请输入菜单名称!" />
+                <label>用户名</label>
+                <input type="text" class="form-control inputXt" placeholder="用户名" name="username"
+                       auto_color_flag="true" datatype="*" nullmsg="请输入用户名!" />
             </div>
             <div class="filedList">
-                <label>父级菜单</label>
-                <select class="form-control inputXt" name="parentId" auto_color_flag="true" datatype="*" nullmsg="请选择父菜单!">
-                    <option value="">---请选择---</option>
-                    <c:forEach items="${menuList}" var="menu">
-                        <option value="${menu.id}">${menu.name}</option>
-                    </c:forEach>
-                </select>
+                <label>真实姓名</label>
+                <input type="text" class="form-control inputXt" placeholder="真实姓名" name="realName"
+                       auto_color_flag="true" datatype="*" nullmsg="请输入真实姓名!" />
             </div>
             <div class="filedList">
-                <label>请求路径</label>
-                <input type="text" class="form-control inputXt" placeholder="请求路径" name="href"/>
+                <label>密码</label>
+                <input type="password" class="form-control inputXt" placeholder="用户密码" name="password"
+                       auto_color_flag="true" datatype="*6-18" nullmsg="请输入用户密码!" errormsg="密码至少6个字符,最多18个字符！"/>
             </div>
             <div class="filedList">
-                <label>图标样式</label>
-                <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon"/>
+                <label>确认密码</label>
+                <input type="password" class="form-control inputXt" placeholder="确认密码" name="rePassword"
+                       auto_color_flag="true" datatype="*" recheck="password" nullmsg="请再次输入密码"/>
             </div>
             <div class="filedList">
-                <label>菜单级别</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="0"/>
+                <label>所属角色</label>
+                <c:forEach items="${roleList}" var="role">
+                    <input type="checkbox" class="inputXt" name="roleIdsStr" value="${role.id}" datatype="*" nullmsg="请选择所属角色！"/>
+                    <span>${role.description}</span>
+                </c:forEach>
             </div>
             <div class="filedList">
-                <label>是否显示</label>
+                <label>身份证号码</label>
+                <input type="text" class="form-control inputXt" placeholder="身份证号码" name="identityCardNum"/>
+            </div>
+            <div class="filedList">
+                <label>邮箱</label>
+                <input type="text" class="form-control inputXt" placeholder="邮箱" name="email"/>
+            </div>
+            <div class="filedList">
+                <label>是否可用</label>
                 <select class="form-control inputXt" name="isShow">
                     <option value="0">是</option>
                     <option value="1">否</option>
@@ -69,7 +78,7 @@
         </div>
         <!--提交取消-->
         <div class="bus-ground-btn">
-            <a id="addMenuform_btn" class="btn btn-enter">&nbsp;确定</a>
+            <a id="addUserform_btn" class="btn btn-enter">&nbsp;确定</a>
             <button id="reset_btn" type="reset" class="btn btn-white" onclick="JavaScript :history.back(-1)">&nbsp;取消</button>
         </div>
         <!--提交取消-->
@@ -78,23 +87,16 @@
 
 </body>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery-2.2.3.min.js"></script>
-<%--<script type="text/javascript" src="${ctx}/static/zTreeStyle/jquery.ztree.core.js"></script>--%>
-<%--<script type="text/javascript" src="${ctx}/static/zTreeStyle/jquery.ztree.excheck.js"></script>--%>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery.nicescroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/lib/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="${ctx}/static/plugins/ichecked/jquery.icheck.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/popup.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/commonForm.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/menuAddOrEdit.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/userAddOrEdit.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/scroll.js"></script>
 <script type="text/javascript">
     $(function(){
-        $menuOperate.initMenuAddOrEdit('${ctx}');
+        $userAddOrEdit.initUserAddOrEdit('${ctx}');
         $scroll.initScroll();
     });
-
-
 </script>
-
 </html>
-

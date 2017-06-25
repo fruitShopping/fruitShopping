@@ -13,34 +13,34 @@ import java.util.List;
  */
 public class Role extends BaseEntity implements Serializable{
     private static final long serialVersionUID = -8409287519824777806L;
-    private Long id;
-    private String role_name;
+    private int id;
+    private String roleName;
     private String description;
-//    private String authority_ids;
+//    private String authorityIdsStr;
     private List<Integer> authority_ids;
 
     public Role() {
     }
 
-    public Role(String role_name, String description) {
-        this.role_name = role_name;
+    public Role(String roleName, String description) {
+        this.roleName = roleName;
         this.description = description;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getDescription() {
@@ -88,28 +88,28 @@ public class Role extends BaseEntity implements Serializable{
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Role role = (Role) o;
+//
+//        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+//
+//        return true;
+//    }
 
-        Role role = (Role) o;
-
-        if (id != null ? !id.equals(role.id) : role.id != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+//    @Override
+//    public int hashCode() {
+//        return id != null ? id.hashCode() : 0;
+//    }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", role_name='" + role_name + '\'' +
+                ", roleName='" + roleName + '\'' +
                 ", description='" + description + '\'' +
                 ", authorityIds=" + authority_ids +
                 '}';

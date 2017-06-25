@@ -11,14 +11,12 @@ import com.zcf.fruit.dao.mysqlDao.user.UserDao;
 import com.zcf.fruit.entity.user.Menu;
 import com.zcf.fruit.entity.user.Role;
 import com.zcf.fruit.entity.user.User;
-import com.zcf.fruit.shiroRealm.MyShiroRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import java.security.Principal;
 import java.util.List;
 
 /**
