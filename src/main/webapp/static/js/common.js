@@ -59,7 +59,7 @@ function tree(){
 		 d.parent("li").find(".treeview-menu>li").removeClass('active');
     });
 };
-$(".Hui-aside").on("click",".treeview-menu a",function(){
+$(".Hui-aside").on("click",".treeview-menu a,.treeview a",function(){
     Hui_admin_tab(this);
 	$(this).parent('li').addClass('active').siblings().removeClass('active');
 });
@@ -85,11 +85,6 @@ function Hui_admin_tab(obj){
 };
 function creatIframe(href){
     $("#iframe").attr("src",href);
-      // var topWindow=$(window.parent.document);//子页面获取父页面元素
-      // var iframe_box=topWindow.find('#iframe_box');
-      // var iframeBox=iframe_box.find('.show_iframe');
-      // iframeBox.hide();
-      // iframe_box.append('<div class="show_iframe"><iframe frameborder="0" src='+href+'></iframe></div>');
 };
 
 

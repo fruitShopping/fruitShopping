@@ -61,17 +61,24 @@
     <section class="sidebar">
         <ul class="sidebar-menu">
             <c:forEach items="${menuList}" var="menu">
-                <c:set var="isDone" value="0"></c:set>
                 <c:if test="${menu.parentId == 1&&menu.isShow eq '0'}">
                     <li class="treeview">
-                        <a href="javascript:void(0)">
+                        <c:choose>
+                            <c:when test="${menu.href != '' && menu.href != null}">
+                                <a _href="${ctx}${menu.href}">
+                            </c:when>
+                            <c:otherwise>
+                                <a href="javascript:void(0);">
+                            </c:otherwise>
+                        </c:choose>
                             <i class="${menu.icon}"></i>
                             <span>${menu.name}</span>
                             <span class="pull-right-container">
+                                <c:set var="flag" value="true" />
                                 <c:forEach items="${menuList}" var="menu3">
-                                    <c:if test="${menu2.parentId eq menu.id&&menu2.isShow eq '0' &&  isDone == 0  }">
+                                    <c:if test="${menu3.parentId eq menu.id&&menu3.isShow eq '0' && flag}">
                                         <i class="fa fa-angle-right"></i>
-                                        <c:set var="isDone" value="1" scope="page"></c:set>
+                                        <c:set var="flag" value="false" />
                                     </c:if>
                                 </c:forEach>
                             </span>
