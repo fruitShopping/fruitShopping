@@ -59,7 +59,7 @@ function tree(){
 		 d.parent("li").find(".treeview-menu>li").removeClass('active');
     });
 };
-$(".Hui-aside").on("click",".treeview-menu a,.treeview a",function(){
+$(".Hui-aside").on("click",".treeview-menu a",function(){
     Hui_admin_tab(this);
 	$(this).parent('li').addClass('active').siblings().removeClass('active');
 });

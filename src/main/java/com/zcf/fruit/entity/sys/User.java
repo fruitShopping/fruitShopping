@@ -1,4 +1,4 @@
-package com.zcf.fruit.entity.user;
+package com.zcf.fruit.entity.sys;
 
 import com.google.common.collect.Lists;
 import com.zcf.fruit.common.base.BaseEntity;
@@ -237,7 +237,7 @@ public class User extends BaseEntity implements Serializable {
     }
 
     public static boolean isAdmin(long id){
-        return id != 0 && id == 1;
+        return id != 0 && id == 2;
     }
 
     public String getIsShow() {

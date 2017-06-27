@@ -1,7 +1,6 @@
-package com.zcf.fruit.entity.user;
+package com.zcf.fruit.entity.sys;
 
 import com.zcf.fruit.common.base.BaseEntity;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.io.Serializable;

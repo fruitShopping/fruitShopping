@@ -1,11 +1,10 @@
-package com.zcf.fruit.dao.mysqlDao.user;
+package com.zcf.fruit.dao.mysqlDao.sys;
 
 import com.zcf.fruit.common.annotation.MyBatisDao;
 import com.zcf.fruit.common.base.BaseDao;
 import com.zcf.fruit.entity.Page;
-import com.zcf.fruit.entity.user.Menu;
+import com.zcf.fruit.entity.sys.Menu;
 import org.apache.ibatis.annotations.*;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

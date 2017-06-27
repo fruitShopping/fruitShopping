@@ -1,10 +1,10 @@
 package com.zcf.fruit.service.sys;
 
-import com.zcf.fruit.dao.mysqlDao.user.RoleDao;
-import com.zcf.fruit.dao.mysqlDao.user.UserDao;
+import com.zcf.fruit.dao.mysqlDao.sys.RoleDao;
+import com.zcf.fruit.dao.mysqlDao.sys.UserDao;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.common.utils.PasswordHelper;
 import org.springframework.stereotype.Service;
 
@@ -124,8 +124,23 @@ public class UserService {
         return flag;
     }
 
+    /**
+     * 查询用户是否存在
+     * @param username 用户名
+     * @return 返回值
+     */
     public User findUserByUsername(String username){
         return userDao.findByUsername(username);
+    }
+
+    /**
+     * 用户信息修改时查询用户名是否存在(不包含现在的用户)
+     * @param username 新用户名
+     * @param loginName 登录用户名
+     * @return 返回值
+     */
+    public User findUserBus(String username,String loginName){
+        return userDao.findUserBus(username,loginName);
     }
     public int findUserByUserName(String username,String password)
     {

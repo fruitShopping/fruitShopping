@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.user.UserDao">
-	<resultMap id="User" type="com.zcf.fruit.entity.user.User"></resultMap>
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.sys.UserDao">
+	<resultMap id="User" type="com.zcf.fruit.entity.sys.User"></resultMap>
 	<sql id="userColumns">
 		u.id,
 		u.username,
@@ -22,7 +22,7 @@
 		u.update_date AS updateDate ,
 		u.del_flag AS delFlag
 	</sql>
-	<sql id="menuJoins">
+	<sql id="roleJoins">
 		LEFT JOIN sys_user_role ur ON ur.user_id = u.id
 		LEFT JOIN sys_role r ON r.id = ur.role_id
 	</sql>
@@ -33,6 +33,9 @@
 		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
 	</select>
 
+	<select id="findUserBus" resultMap="User">
+		SELECT * FROM sys_user u  WHERE u.username != #{username} AND u.username  = #{loginName}
+	</select>
 	<!-- 根据登录名查询用户角色 -->
 	<select id="findByRoleIds">
 		SELECT r.authority_ids FROM sys_user u,sys_role r,sys_user_role ur
@@ -46,7 +49,7 @@
 		<include refid="userColumns"/>,
 		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
 		FROM sys_user u
-		<include refid="menuJoins"/>
+		<include refid="roleJoins"/>
 		WHERE u.del_flag = '0'
 		<if test="username != '' and username != null">
 			AND u.username like CONCAT('%', #{username}, '%')
@@ -88,7 +91,7 @@
 		<include refid="userColumns"/>,
 		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
 		 FROM sys_user u
-		<include refid="menuJoins"/>
+		<include refid="roleJoins"/>
 		WHERE u.id = #{userId} AND u.del_flag = '0'
 	</select>
 
@@ -148,21 +151,31 @@
 		WHERE id = #{id}
 	</update>
 
-	<!-- 删除用户和角色关联表数据 -->
-	<delete id="deleteUserRole">
-		DELETE FROM sys_user_role WHERE user_id = #{id}
-	</delete>
+	<!-- 商户更新信息 -->
+	<update id="updateBusi">
+		UPDATE sys_user SET
+		username = #{username},
+		telephone = #{telephone},
+		real_name = #{realName},
+		identity_card_num = #{identityCardNum}
+		WHERE id = #{id}
+	</update>
 
-	<!-- 插入用户和角色关联表数据 -->
-	<insert id="insertUserRole">
-		INSERT INTO sys_user_role(user_id, role_id)
-		<foreach collection="roleList" item="role" separator=" union all ">
-			SELECT #{id}, #{role.id}
-			<if test="dbName != 'mssql'">
-			FROM dual
-			</if>
-		</foreach>
-	</insert>
+	<!--&lt;!&ndash; 删除用户和角色关联表数据 &ndash;&gt;-->
+	<!--<delete id="deleteUserRole">-->
+		<!--DELETE FROM sys_user_role WHERE user_id = #{id}-->
+	<!--</delete>-->
+
+	<!--&lt;!&ndash; 插入用户和角色关联表数据 &ndash;&gt;-->
+	<!--<insert id="insertUserRole">-->
+		<!--INSERT INTO sys_user_role(user_id, role_id)-->
+		<!--<foreach collection="roleList" item="role" separator=" union all ">-->
+			<!--SELECT #{id}, #{role.id}-->
+			<!--<if test="dbName != 'mssql'">-->
+			<!--FROM dual-->
+			<!--</if>-->
+		<!--</foreach>-->
+	<!--</insert>-->
 
 	<!-- 更新用户密码 -->
 	<update id="updatePasswordById">

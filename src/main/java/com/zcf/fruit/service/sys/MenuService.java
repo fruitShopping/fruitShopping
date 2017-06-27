@@ -1,10 +1,10 @@
 package com.zcf.fruit.service.sys;
 
 import com.zcf.fruit.common.utils.CacheUtils;
-import com.zcf.fruit.dao.mysqlDao.user.MenuDao;
+import com.zcf.fruit.dao.mysqlDao.sys.MenuDao;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
-import com.zcf.fruit.entity.user.Menu;
+import com.zcf.fruit.entity.sys.Menu;
 import com.zcf.fruit.util.LogUtils;
 import com.zcf.fruit.util.UserUtils;
 import org.springframework.stereotype.Service;

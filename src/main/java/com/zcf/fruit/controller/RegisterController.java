@@ -1,6 +1,6 @@
 package com.zcf.fruit.controller;
 
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.service.sys.RegisterService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -43,7 +43,7 @@ public class RegisterController {
 
             //将密码设置为未加密之前的字符串
             user.setPassword(password);
-            model.addAttribute("user", user);
+            model.addAttribute("sys", user);
 //            model.addAttribute("agent", agent);
             return "register";
         }

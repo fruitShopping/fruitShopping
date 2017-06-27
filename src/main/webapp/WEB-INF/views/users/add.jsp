@@ -36,6 +36,7 @@
             <div class="filedList">
                 <label>用户名</label>
                 <input type="text" class="form-control inputXt" placeholder="用户名" name="username"
+                       ajaxurl="${ctx}/back/users/checkUsername"
                        auto_color_flag="true" datatype="*" nullmsg="请输入用户名!" />
             </div>
             <div class="filedList">

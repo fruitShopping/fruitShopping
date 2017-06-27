@@ -1,7 +1,7 @@
 package com.zcf.fruit.controller.sys;
 
 import com.zcf.fruit.common.utils.Servlets;
-import com.zcf.fruit.entity.user.Role;
+import com.zcf.fruit.entity.sys.Role;
 import com.zcf.fruit.service.sys.RoleService;
 import com.zcf.fruit.util.LogUtils;
 import org.slf4j.Logger;

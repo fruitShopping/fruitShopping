@@ -40,10 +40,10 @@
 	</settings>
 
 	<!--<typeAliases>-->
-		<!--<typeAlias alias="User" type="com.zcf.fruit.entity.user.User"/>-->
-		<!--<typeAlias alias="Authority" type="com.zcf.fruit.entity.user.Authority"/>-->
-		<!--<typeAlias alias="Log" type="com.zcf.fruit.entity.user.Log"/>-->
-		<!--<typeAlias alias="Menu" type="com.zcf.fruit.entity.user.Menu"/>-->
-		<!--<typeAlias alias="Role" type="com.zcf.fruit.entity.user.Role"/>-->
+		<!--<typeAlias alias="User" type="com.zcf.fruit.entity.sysUser"/>-->
+		<!--<typeAlias alias="Authority" type="com.zcf.fruit.entity.sysAuthority"/>-->
+		<!--<typeAlias alias="Log" type="com.zcf.fruit.entity.sysLog"/>-->
+		<!--<typeAlias alias="Menu" type="com.zcf.fruit.entity.sysMenu"/>-->
+		<!--<typeAlias alias="Role" type="com.zcf.fruit.entity.sysRole"/>-->
 	<!--</typeAliases>-->
 </configuration>

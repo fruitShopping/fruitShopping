@@ -1,6 +1,6 @@
 package com.zcf.fruit.common.utils;
 
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

@@ -1,9 +1,9 @@
-package com.zcf.fruit.dao.mysqlDao.user;
+package com.zcf.fruit.dao.mysqlDao.sys;
 
 import com.zcf.fruit.common.annotation.MyBatisDao;
 import com.zcf.fruit.common.base.BaseDao;
-import com.zcf.fruit.entity.user.Role;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.Role;
+import com.zcf.fruit.entity.sys.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +30,7 @@ public interface RoleDao extends BaseDao<Role> {
 
     public void deleteUserAndRole(@Param("userId") long userId);
 
-    public void delRoleAllMenu(@Param("roleId") int roleId);
+    public void delRoleAndMenu(@Param("roleId") int roleId);
 
     public void addRoleAndMenu(@Param("menuId") int menuId,
                                @Param("roleId") int roleId);

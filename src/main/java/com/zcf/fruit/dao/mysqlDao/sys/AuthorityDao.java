@@ -1,7 +1,7 @@
-package com.zcf.fruit.dao.mysqlDao.user;
+package com.zcf.fruit.dao.mysqlDao.sys;
 
 import com.zcf.fruit.common.annotation.MyBatisDao;
-import com.zcf.fruit.entity.user.Authority;
+import com.zcf.fruit.entity.sys.Authority;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

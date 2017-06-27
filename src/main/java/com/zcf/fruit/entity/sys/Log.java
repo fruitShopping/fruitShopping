@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.zcf.fruit.entity.user;
+package com.zcf.fruit.entity.sys;
 
 import com.zcf.fruit.common.utils.StringUtils;
 import com.zcf.fruit.common.base.BaseEntity;

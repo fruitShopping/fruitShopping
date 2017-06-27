@@ -1,4 +1,4 @@
-package com.zcf.fruit.entity.user;
+package com.zcf.fruit.entity.sys;
 
 import java.io.Serializable;
 

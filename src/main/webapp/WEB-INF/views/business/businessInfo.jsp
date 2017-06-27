@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: zcf
@@ -6,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -32,21 +35,30 @@
             <i class="icon icon-usinf"></i>
             <div class="info-box-right">
                 <h3>真实姓名</h3>
-                <p>张晓龙<span>企业</span></p>
+                <p>${business.user.realName}
+                    <c:choose>
+                        <c:when test="${business.type == 0}">
+                            <span>企业</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span>个人</span>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 ui-box-col">
             <i class="icon icon-booxk"></i>
             <div class="info-box-right">
                 <h3>身份证号</h3>
-                <p>420982199302091480</p>
+                <p>${business.user.identityCardNum}</p>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 ui-box-col">
             <i class="icon icon-telf"></i>
             <div class="info-box-right">
                 <h3>手机号码</h3>
-                <p>158-2569-1546</p>
+                <p>${business.user.telephone}</p>
             </div>
         </div>
     </div>
@@ -56,19 +68,49 @@
 <div class="shopInfo ui-box">
     <h3>店铺信息</h3>
     <div class="row">
-        <div class="col-md-4 col-sm-4 ui-box-col">
-            <img src="${ctx}/static/images/sgzy_03.jpg" />
-            <p>梅泓声水果庄园</p>
-        </div>
-        <div class="col-md-4 col-sm-4 ui-box-col">
-            <img src="${ctx}/static/images/yyzz_03.jpg" />
-            <p>458844765854<br/><span>(营业执照注册号)</span></p>
-        </div>
+        <c:choose>
+            <c:when test="${business.type == 0}">
+                <c:forEach items="${business.imgList}" var="img">
+                    <c:choose>
+                        <c:when test="${img.type ==0}">
+                            <div class="col-md-4 col-sm-4 ui-box-col">
+                                <img src="${ctx}/${img.imgPath}" />
+                                <p><span>${business.merchantName}</span></p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="col-md-4 col-sm-4 ui-box-col">
+                                <img src="${ctx}/${img.imgPath}" />
+                                <p><span>营业执照</span></p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${business.imgList}" var="img">
+                    <c:choose>
+                        <c:when test="${img.type ==0}">
+                            <div class="col-md-4 col-sm-4 ui-box-col">
+                                <img src="${ctx}/${img.imgPath}" />
+                                <p><span>身份证正面</span></p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="col-md-4 col-sm-4 ui-box-col">
+                                <img src="${ctx}/${img.imgPath}" />
+                                <p><span>身份证反面</span></p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 <!--店铺信息-->
 <div class="ui-box">
-    <a id="btn_edit" class="btn btn-greenlur" href="busedit.html"><i class="iconfont icon-modify"></i>&nbsp;修改</a>
+    <a id="btn_edit" class="btn btn-greenlur" href="${ctx}/back/business/edit"><i class="iconfont icon-modify"></i>&nbsp;修改</a>
 </div>
 </body>
 <script src="${ctx}/static/js/lib/jquery-2.2.3.min.js"></script>

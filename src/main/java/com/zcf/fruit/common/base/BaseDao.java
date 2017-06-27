@@ -1,5 +1,7 @@
 package com.zcf.fruit.common.base;
 
+import com.zcf.fruit.entity.Page;
+
 import java.util.List;
 
 /**
@@ -26,6 +28,19 @@ public interface BaseDao<T> {
      * @return
      */
     public List<T> findList(T entity);
+
+    /**
+     * 分页查询
+     * @param page
+     * @return
+     */
+    public List<T> findPageList(Page page);
+
+    /**
+     * 查询全部数据
+     * @return
+     */
+    public int findTotal();
 
     /**
      * 查询所有数据列表

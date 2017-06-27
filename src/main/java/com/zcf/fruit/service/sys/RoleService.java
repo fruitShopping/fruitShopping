@@ -1,7 +1,7 @@
 package com.zcf.fruit.service.sys;
 
-import com.zcf.fruit.dao.mysqlDao.user.RoleDao;
-import com.zcf.fruit.entity.user.Role;
+import com.zcf.fruit.dao.mysqlDao.sys.RoleDao;
+import com.zcf.fruit.entity.sys.Role;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -68,7 +68,7 @@ public class RoleService {
             //角色删除
             roleDao.delete(Integer.parseInt(roleId));
             //删除角色所属权限
-            roleDao.delRoleAllMenu(Integer.parseInt(roleId));
+            roleDao.delRoleAndMenu(Integer.parseInt(roleId));
         }
     }
 

@@ -126,7 +126,7 @@
                 <entry key="forceLogout" value-ref="forceLogoutFilter"/>
             </util:map>
         </property>
-        <!-- 就是需要验证的地址的列表，常用的包含anon、authc、perms、roles、user、logout。 -->
+        <!-- 就是需要验证的地址的列表，常用的包含anon、authc、perms、roles、sys、logout。 -->
         <property name="filterChainDefinitions">
             <value>
                 /back/** = userAuthc

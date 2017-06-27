@@ -1,7 +1,7 @@
 package com.zcf.fruit.service.sys;
 
-import com.zcf.fruit.dao.mysqlDao.user.RegisterDao;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.dao.mysqlDao.sys.RegisterDao;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.common.utils.PasswordHelper;
 import org.springframework.stereotype.Service;
 

@@ -24,7 +24,8 @@
     <div class="response-head titlePanel">
         <div class="ui-filter title-search ">
             <div class="btn-group queryCondition">
-                <a class="btn btn-default dropdown-text" data-toggle="dropdown" aria-expanded="false" data-value="0">用户名</a>
+                <a class="btn btn-default dropdown-text" data-toggle="dropdown" aria-expanded="false"
+                   data-value="0">用户名</a>
                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                     <span class="caret"></span>
                 </a>
@@ -37,7 +38,7 @@
             </div>
         </div>
         <div class="ui-filter">
-            <input id="searchName" class="form-control w-120" type="text" placeholder="请输入关键字" />
+            <input id="searchName" class="form-control w-120" type="text" placeholder="请输入关键字"/>
         </div>
         <div class="ui-filter" style="margin:0px 15px;">
             <a id="btn_Search" class="btn btn-seach-info">&nbsp;查询</a>
@@ -95,17 +96,17 @@
         </table>
         <!--分页-->
         <c:choose>
-        <c:when test="${userList.pageTotal > 1}">
-        <div class="table-page" id="controlPage"></div>
+            <c:when test="${userList.pageTotal > 1}">
+                <div class="table-page" id="controlPage"></div>
+                <%--</div>--%>
+            </c:when>
+            <c:otherwise>
+            <div class="table-page" id="controlPage" style="display: none;"></div>
+        <%--</div>--%>
+            </c:otherwise>
+        </c:choose>
+    <!--分页-->
     </div>
-    </c:when>
-    <c:otherwise>
-    <div class="table-page" id="controlPage" style="display: none;"></div>
-</div>
-</c:otherwise>
-</c:choose>
-<!--分页-->
-</div>
 </body>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery.nicescroll.js"></script>
@@ -124,12 +125,12 @@
     });
     var usename = '${username}';
     var telephone = '${mobile}';
-    if(usename != ""){
+    if (usename != "") {
         $(".dropdown-text").text("用户名");
         $(".dropdown-text").attr("data-value", "0");
         $("#searchName").val(usename);
     }
-    if(telephone != ""){
+    if (telephone != "") {
         $(".dropdown-text").text("手机号码");
         $(".dropdown-text").attr("data-value", "1");
         $("#searchName").val(telephone);

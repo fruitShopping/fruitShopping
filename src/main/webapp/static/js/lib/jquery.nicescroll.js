@@ -375,9 +375,9 @@
 
     this.visibility = true;
     this.railslocked = false;  // locked by resize
-    this.locked = false;  // prevent lost of locked status sets by user
+    this.locked = false;  // prevent lost of locked status sets by sys
     this.hidden = false; // rails always hidden
-    this.cursoractive = true; // user can interact with cursors
+    this.cursoractive = true; // sys can interact with cursors
 
     this.wheelprevented = false; //prevent mousewheel event
 
@@ -424,7 +424,7 @@
 //      cap.cantouch = false; // parse normal desktop events
     }
 
-    //## disable MouseLock API on user request
+    //## disable MouseLock API on sys request
     if (!self.opt.enablemouselockapi) {
       cap.hasmousecapture = false;
       cap.haspointerlock = false;

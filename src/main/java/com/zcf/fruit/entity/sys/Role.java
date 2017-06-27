@@ -1,4 +1,4 @@
-package com.zcf.fruit.entity.user;
+package com.zcf.fruit.entity.sys;
 
 import com.zcf.fruit.common.base.BaseEntity;
 import org.springframework.util.CollectionUtils;

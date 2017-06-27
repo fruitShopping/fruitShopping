@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.sys.DictDao">
+
+    <select id="findPageList" resultType="DictEntity">
+        SELECT
+        *
+        FROM sys_dictionary limit #{begin},#{size}
+    </select>
+
+    <select id="findTotal" resultType="java.lang.Integer">
+         SELECT
+         COUNT(1)
+        FROM sys_dictionary
+    </select>
+    <select id="findById" resultType="DictEntity">
+        SELECT * FROM  sys_dictionary WHERE id = ${dictId}
+    </select>
+    <insert id="insert">
+        INSERT INTO sys_dictionary (name,code) VALUES (#{name},#{code})
+    </insert>
+    <update id="update">
+        UPDATE sys_dictionary SET name = #{name},code = #{code} WHERE id = #{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM sys_dictionary WHERE id=#{id}
+    </delete>
+</mapper>

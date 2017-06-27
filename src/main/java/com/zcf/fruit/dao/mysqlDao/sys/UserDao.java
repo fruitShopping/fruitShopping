@@ -1,13 +1,9 @@
-package com.zcf.fruit.dao.mysqlDao.user;
+package com.zcf.fruit.dao.mysqlDao.sys;
 
 import com.zcf.fruit.common.annotation.MyBatisDao;
-import com.zcf.fruit.common.base.BaseDao;
 import com.zcf.fruit.entity.Page;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +16,9 @@ import java.util.List;
 public interface UserDao{
 
     public User findByUsername(@Param("username") String username);
+
+    public User findUserBus(@Param("username") String username,
+                            @Param("loginName") String loginName);
 
     public String findByRoleIds(@Param("username") String username);
 
@@ -39,4 +38,6 @@ public interface UserDao{
     public void update(User user);
 
     public long insert(User user);
+
+    public void updateBusi(User user);
 }

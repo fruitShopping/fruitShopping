@@ -1,6 +1,6 @@
 package com.zcf.fruit.common.base;
 
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.util.UserUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 

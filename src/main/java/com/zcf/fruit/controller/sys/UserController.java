@@ -3,11 +3,12 @@ package com.zcf.fruit.controller.sys;
 import com.zcf.fruit.common.utils.Servlets;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
-import com.zcf.fruit.entity.user.Role;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.Role;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.service.sys.RoleService;
 import com.zcf.fruit.service.sys.UserService;
 import com.zcf.fruit.util.LogUtils;
+import com.zcf.fruit.util.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户管理ACTION
@@ -30,17 +35,17 @@ public class UserController {
      * 用户列表查询
      * @param username 用户名
      * @param mobile 手机号码
-     * @param currentPage 页码
+     * @param pageNo 页码
      */
     @RequestMapping("/userList")
     public String userList(Model model,
                             @RequestParam(value = "username",required = false, defaultValue = "") String username,
                            @RequestParam(value = "mobile",required = false, defaultValue = "") String mobile,
-                            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage){
-        logger.info("UserController userList check user information");
+                            @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo){
+        logger.info("UserController userList check sys information");
         //分页
         Page page = new Page();
-        page.setCurrentPage(currentPage);
+        page.setCurrentPage(pageNo);
 
         IfPage<User> ifPageUsersList = userService.getUsersList(page, username,mobile);
         model.addAttribute("username",username);
@@ -104,17 +109,41 @@ public class UserController {
 
     /**
      * 根据用户名查询用户信息
-     * @param username 用户名
      * @return 返回值
      */
     @RequestMapping("/checkUsername")
-    public @ResponseBody Boolean checkUsername(@RequestParam("username") String username){
-        boolean flag = false;
+    public @ResponseBody Map<String,Object> checkUsername(HttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> map=new HashMap<String,Object>();
+        String username = request.getParameter("param");
         User user = userService.findUserByUsername(username);
         if(user == null){
-            flag = true;
+            map.put("status", "y");
+            map.put("info", "用户名可以使用！");
+        }else{
+            map.put("status", "n");
+            map.put("info","用户名已经存在！" );
         }
-        return flag;
+        return map;
+    }
+
+    /**
+     * 根据用户名查询用户信息
+     * @return 返回值
+     */
+    @RequestMapping("/checkUsernameBus")
+    public @ResponseBody Map<String,Object> checkUsernameBus(HttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> map=new HashMap<String,Object>();
+        String username = request.getParameter("param");
+        User loginUser = UserUtils.getUser();
+        User user = userService.findUserBus(username,loginUser.getUsername());
+        if(user == null){
+            map.put("status", "y");
+            map.put("info", "用户名可以使用！");
+        }else{
+            map.put("status", "n");
+            map.put("info","用户名已经存在！" );
+        }
+        return map;
     }
 
     /**
@@ -130,7 +159,7 @@ public class UserController {
         //查询角色数据
         List<Role> roleList = roleService.findAllList();
         model.addAttribute("roleList",roleList);
-        model.addAttribute("user",user);
+        model.addAttribute("sys",user);
         return "users/edit";
     }
 

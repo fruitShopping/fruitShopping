@@ -1,12 +1,11 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.zcf.fruit.dao.mysqlDao.user;
+package com.zcf.fruit.dao.mysqlDao.sys;
 
 import com.zcf.fruit.common.annotation.MyBatisDao;
 import com.zcf.fruit.common.base.BaseDao;
-import com.zcf.fruit.entity.user.Log;
-import org.mybatis.spring.annotation.MapperScan;
+import com.zcf.fruit.entity.sys.Log;
 import org.springframework.stereotype.Repository;
 
 /**

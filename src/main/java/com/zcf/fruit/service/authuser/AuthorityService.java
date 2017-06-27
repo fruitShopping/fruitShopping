@@ -1,7 +1,7 @@
 package com.zcf.fruit.service.authuser;
 
-import com.zcf.fruit.dao.mysqlDao.user.AuthorityDao;
-import com.zcf.fruit.entity.user.Authority;
+import com.zcf.fruit.dao.mysqlDao.sys.AuthorityDao;
+import com.zcf.fruit.entity.sys.Authority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

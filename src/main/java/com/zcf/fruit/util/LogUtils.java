@@ -10,11 +10,11 @@ import com.zcf.fruit.common.utils.CacheUtils;
 import com.zcf.fruit.common.utils.Exceptions;
 import com.zcf.fruit.common.utils.SpringContextHolder;
 import com.zcf.fruit.common.utils.StringUtils;
-import com.zcf.fruit.dao.mysqlDao.user.LogDao;
-import com.zcf.fruit.dao.mysqlDao.user.MenuDao;
-import com.zcf.fruit.entity.user.Log;
-import com.zcf.fruit.entity.user.Menu;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.dao.mysqlDao.sys.LogDao;
+import com.zcf.fruit.dao.mysqlDao.sys.MenuDao;
+import com.zcf.fruit.entity.sys.Log;
+import com.zcf.fruit.entity.sys.Menu;
+import com.zcf.fruit.entity.sys.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.method.HandlerMethod;
 
@@ -52,7 +52,7 @@ public class LogUtils {
 			log.setTitle(title);
 			log.setType(ex == null ? Log.TYPE_ACCESS : Log.TYPE_EXCEPTION);
 			log.setRemoteAddr(StringUtils.getRemoteAddr(request));
-			log.setUserAgent(request.getHeader("user-agent"));
+			log.setUserAgent(request.getHeader("sys-agent"));
 			log.setRequestUri(request.getRequestURI());
 			log.setParams(request.getParameterMap());
 			log.setMethod(request.getMethod());

@@ -5,12 +5,12 @@ package com.zcf.fruit.util;
 
 import com.zcf.fruit.common.utils.CacheUtils;
 import com.zcf.fruit.common.utils.SpringContextHolder;
-import com.zcf.fruit.dao.mysqlDao.user.MenuDao;
-import com.zcf.fruit.dao.mysqlDao.user.RoleDao;
-import com.zcf.fruit.dao.mysqlDao.user.UserDao;
-import com.zcf.fruit.entity.user.Menu;
-import com.zcf.fruit.entity.user.Role;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.dao.mysqlDao.sys.MenuDao;
+import com.zcf.fruit.dao.mysqlDao.sys.RoleDao;
+import com.zcf.fruit.dao.mysqlDao.sys.UserDao;
+import com.zcf.fruit.entity.sys.Menu;
+import com.zcf.fruit.entity.sys.Role;
+import com.zcf.fruit.entity.sys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;

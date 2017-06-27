@@ -1,9 +1,8 @@
 package com.zcf.fruit.shiroRealm;
 
-import com.zcf.fruit.common.utils.PasswordHelper;
 import com.zcf.fruit.common.utils.Servlets;
 import com.zcf.fruit.common.utils.SpringContextHolder;
-import com.zcf.fruit.entity.user.User;
+import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.service.SystemService;
 import com.zcf.fruit.service.authuser.AuthUserService;
 import com.zcf.fruit.util.LogUtils;
@@ -22,7 +21,6 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -163,10 +161,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 //
 ////		private Map<String, Object> cacheMap;
 //
-//        public Principal(User user) {
-//            this.id = user.getId();
-//            this.username = user.getUsername();
-//            this.realName = user.getRealName();
+//        public Principal(User sys) {
+//            this.id = sys.getId();
+//            this.username = sys.getUsername();
+//            this.realName = sys.getRealName();
 //        }
 //
 //        public long getId() {

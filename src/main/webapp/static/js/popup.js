@@ -118,18 +118,12 @@ function onCheck(e, treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
 		nodes = zTree.getChangeCheckedNodes();
 	var id = ""
-//                    name = "";
-//            nodes.sort(function compare(a,b){return a.id-b.id;});
 	for (var i=0, l=nodes.length; i<l; i++) {
 		id += nodes[i].id + ",";
 		name += nodes[i].name + ",";
 	}
 	if (id.length > 0 ) id = id.substring(0, id.length-1);
-//            if (name.length > 0 ) name = name.substring(0, name.length-1);
 	changeIds =id;
-	console.log("changeIds:"+id);
-	// zdoc.getElementById('changeIds').value = id;
-	// $("#changeIds").val(id);
 }
 
 function createTree(roleId,data,ctx) {
@@ -146,9 +140,6 @@ function createTree(roleId,data,ctx) {
 
 	zTree.expandAll(true);
 	selectIds = selectIdStr;
-	console.log(selectIds+"=========");
-	// zdoc.getElementById('selectIds').value = selectIds;
-		// $("#selectIds").val(selectIds);
 	roleAuth(roleId,ctx);
 }
 
