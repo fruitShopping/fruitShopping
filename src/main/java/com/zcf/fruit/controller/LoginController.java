@@ -32,23 +32,23 @@ public class LoginController {
 
     @RequestMapping(value = {"","/"})
     public String home(HttpServletRequest request, HttpServletResponse response){
-        String username = UserUtils.getPrincipal();
+//        String username = UserUtils.getPrincipal();
 
         // 登录成功后，验证码计算器清零
 //        isValidateCodeLogin(principal.getLoginName(), false, true);
 
         // 如果已登录，再次访问主页，则退出原账号。
-        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
-            String logined = CookieUtils.getCookie(request, "LOGINED");
-            if (StringUtils.isBlank(logined) || "false".equals(logined)){
-                CookieUtils.setCookie(response, "LOGINED", "true");
-            }else if (StringUtils.equals(logined, "true")){
-                UserUtils.getSubject().logout();
-                return "redirect:/login";
-            }
-        }
-
+//        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
+//            String logined = CookieUtils.getCookie(request, "LOGINED");
+//            if (StringUtils.isBlank(logined) || "false".equals(logined)){
+//                CookieUtils.setCookie(response, "LOGINED", "true");
+//            }else if (StringUtils.equals(logined, "true")){
+//                UserUtils.getSubject().logout();
+//                return "redirect:/login";
+//            }
+//        }
         return "redirect:/back/index";
+//        return "redirect:/main";
     }
 
     /**
@@ -56,7 +56,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-        String username = UserUtils.getPrincipal();
+//        String username = UserUtils.getPrincipal();
 
 //		// 默认页签模式
 //		String tabmode = CookieUtils.getCookie(request, "tabmode");
@@ -64,25 +64,27 @@ public class LoginController {
 //			CookieUtils.setCookie(response, "tabmode", "1");
 //		}
 
-        if (logger.isDebugEnabled()){
-            //处理session
-            DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-            DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
-            Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
-            logger.debug("login, active session size: {}", sessions.size());
-        }
-
-        // 如果已登录，再次访问主页，则退出原账号。
-        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
-            CookieUtils.setCookie(response, "LOGINED", "false");
-        }
-
-        // 如果已经登录，则跳转到管理首页
-        if(username != null && username != ""){
-            return "redirect:/back/index";
-        }
+//        if (logger.isDebugEnabled()){
+//            //处理session
+//            DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+//            DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
+//            Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
+//            logger.debug("login, active session size: {}", sessions.size());
+//        }
+//
+//        // 如果已登录，再次访问主页，则退出原账号。
+//        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
+//            CookieUtils.setCookie(response, "LOGINED", "false");
+//        }
+//
+//        // 如果已经登录，则跳转到管理首页
+//        if(username != null && username != ""){
+//            return "redirect:/back/index";
+//        }
 
         return "sys/login";
+//        return "redirect:/main";
+
     }
 
     /**
@@ -115,6 +117,10 @@ public class LoginController {
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
         model.addAttribute("error", error);
         return "sys/login";
+    }
+    @RequestMapping(value = "/unAuthorization")
+    public String unAuthorization(){
+        return "unAuthorization";
     }
 
 }

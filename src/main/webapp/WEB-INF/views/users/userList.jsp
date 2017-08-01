@@ -107,6 +107,7 @@
         </c:choose>
     <!--分页-->
     </div>
+</div>
 </body>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/lib/jquery.nicescroll.js"></script>

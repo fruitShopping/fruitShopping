@@ -4,6 +4,7 @@ import com.zcf.fruit.common.utils.Servlets;
 import com.zcf.fruit.dao.mysqlDao.sys.DictDao;
 import com.zcf.fruit.entity.IfPage;
 import com.zcf.fruit.entity.Page;
+import com.zcf.fruit.entity.product.CategoryEntity;
 import com.zcf.fruit.entity.sys.DictEntity;
 import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.util.LogUtils;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class DictService {
     /**
-     * 用户信息分页查询
+     * 字典信息分页查询
      * @param page 分页
      * @return
      */
@@ -61,10 +62,15 @@ public class DictService {
     public void delete(String dictIds){
         String[] dictIdArr = dictIds.split(",");
         for(String dictId : dictIdArr){
-            //角色删除
+            //字典信息删除
             dictDao.delete(Integer.parseInt(dictId));
         }
     }
+
+    public List<DictEntity> findByCode(String code){
+        return dictDao.findByCode(code);
+    }
+
     @Inject
     private DictDao dictDao;
 }

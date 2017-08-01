@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<display-name>fruitShopping</display-name>
-	
+	<!-- 鲜果APP 你爱吃的都在这里 -->
 	<error-page>
     	<error-code>404</error-code>
     	<location>/WEB-INF/error/404.jsp</location>
@@ -23,7 +23,7 @@
 			classpath:/spring/schedule.xml,
 			classpath:/spring/bean-context.xml,
 			classpath:/spring/jdbc-context.xml,
-			classpath:/spring/cxf-context.xml,
+			<!--classpath:/spring/cxf-context.xml,-->
 			classpath:/spring/spring-shiro.xml
         </param-value>
 	</context-param>
@@ -51,20 +51,6 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- Webservice -->
-    <servlet>
-        <servlet-name>CXFServlet</servlet-name>
-        <servlet-class>
-            org.apache.cxf.transport.servlet.CXFServlet
-        </servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>CXFServlet</servlet-name>
-        <url-pattern>/api/*</url-pattern>
-    </servlet-mapping>
 
 	<!-- Processes application requests -->
 	<servlet>
@@ -72,7 +58,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>classpath:/spring/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -87,10 +73,7 @@
         <param-name>logbackConfigLocation</param-name>
         <param-value>classpath:/spring/logback.xml</param-value>
     </context-param>
-    <context-param>
-        <param-name/>
-        <param-value/>
-    </context-param>
+
     <listener>
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
         <!--<listener-class>com.microCredit.wxFuCai.utils.LogbackConfigListener</listener-class>-->

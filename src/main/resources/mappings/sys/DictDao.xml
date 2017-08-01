@@ -13,6 +13,9 @@
          COUNT(1)
         FROM sys_dictionary
     </select>
+    <select id="findByCode" resultType="DictEntity">
+        SELECT * FROM  sys_dictionary WHERE code = #{code}
+    </select>
     <select id="findById" resultType="DictEntity">
         SELECT * FROM  sys_dictionary WHERE id = ${dictId}
     </select>

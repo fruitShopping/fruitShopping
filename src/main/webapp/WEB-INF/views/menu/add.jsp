@@ -56,8 +56,8 @@
                 <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon"/>
             </div>
             <div class="filedList">
-                <label>菜单级别</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="0"/>
+                <label>排序</label>
+                <input type="text" class="form-control inputXt" placeholder="排序" name="sort" value="0"/>
             </div>
             <div class="filedList">
                 <label>是否显示</label>

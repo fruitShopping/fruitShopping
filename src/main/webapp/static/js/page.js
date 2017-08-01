@@ -13,7 +13,7 @@
                 pages: pageTotal,
                 skip: true,
                 curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-                    var page = location.search.match(/pageNo=(\d+)/); ;
+                    var page = location.search.match(/pageNo=(\d+)/);
                     return page ? page[1] : 1;
                 }(),
                 jump: function(obj,first){//点击页码出发的事件

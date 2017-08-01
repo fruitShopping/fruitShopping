@@ -15,6 +15,8 @@ public interface BaseDao<T> {
      */
     public T get(long id);
 
+    public T findById(int id);
+
     /**
      * 获取单条数据
      * @param entity
