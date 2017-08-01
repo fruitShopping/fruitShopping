@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.product.ProductDao">
+    <sql id="productColumns">
+        p.id,
+        p.businessmen_id AS businessmenId,
+        b.merchant_name AS businessName,
+        p.product_name AS productName,
+        p.original_price AS originalPrice,
+        p.discounted_price AS discountedPrice,
+        p.in_stock AS inStock,
+        p.sold,
+        p.title,
+        p.description,
+        p.detail_img AS detailImg,
+        p.product_img AS productImg,
+        p.is_promotion AS isPromotion,
+        p.is_season AS isSeason,
+        p.category_id AS categoryId,
+        p.create_time AS createDate,
+        c.category_name AS categoryName,
+        d.name AS typeName,
+        p.type_id AS typeId,
+        p.del_flag AS delFlag,
+        p.is_shelves AS isShelves
+    </sql>
+    <sql id="joinsTable">
+        LEFT JOIN ft_business b ON b.id = p.businessmen_id
+        LEFT JOIN ft_category c ON c.id = p.category_id
+        LEFT JOIN sys_dictionary d ON d.id = p.type_id
+        LEFT JOIN sys_user u ON u.id = b.user_id
+    </sql>
+    <!-- 分页查询 -->
+    <select id="getProductList" resultType="ProductEntity">
+        SELECT
+        <include refid="productColumns"/>
+        FROM ft_product p
+        <include refid="joinsTable"/>
+        WHERE p.del_flag = #{delFlag}
+        <if test="!isAdmin">
+            AND u.id = #{user.id}
+        </if>
+        <if test="isSeason != 2">
+            AND p.is_season = #{isSeason}
+        </if>
+        <if test="isPromotion != 2">
+            AND p.is_promotion = #{isPromotion}
+        </if>
+        ORDER  BY  p.create_time DESC
+        limit #{page.begin},#{page.size}
+    </select>
+
+    <select id="productListTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ft_product p
+        <include refid="joinsTable"/>
+        WHERE p.del_flag = #{delFlag}
+        <if test="!isAdmin">
+            AND u.id = #{user.id}
+        </if>
+        <if test="isSeason != 2">
+            AND p.is_season = #{isSeason}
+        </if>
+        <if test="isPromotion != 2">
+            AND p.is_promotion = #{isPromotion}
+        </if>
+    </select>
+
+    <select id="findAllProduct" resultType="ProductEntity">
+        SELECT
+        <include refid="productColumns"/>
+        FROM ft_product p
+        <include refid="joinsTable"/>
+        WHERE p.del_flag = '0'
+        <if test="!isAdmin">
+            AND u.id = #{user.id}
+        </if>
+        ORDER  BY  p.create_time DESC
+    </select>
+
+    <select id="findById" resultType="ProductEntity">
+        SELECT
+        <include refid="productColumns"/>
+        FROM ft_product p
+        <include refid="joinsTable"/>
+        WHERE p.id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ft_product(
+        businessmen_id,
+        product_name,
+        original_price,
+        discounted_price,
+        in_stock,
+        title,
+        description,
+        detail_img,
+        product_img,
+        is_promotion,
+        is_season,
+        category_id,
+        create_time,
+        type_id,
+        is_shelves
+        ) VALUES (
+        #{businessmenId},
+        #{productName},
+        #{originalPrice},
+        #{discountedPrice},
+        #{inStock},
+        #{title},
+        #{description},
+        #{detailImg},
+        #{productImg},
+        #{isPromotion},
+        #{isSeason},
+        #{categoryId},
+        now(),
+        #{typeId},
+        #{isShelves}
+        )
+
+    </insert>
+
+    <update id="update">
+      UPDATE ft_product SET
+        product_name = #{productName},
+        original_price = #{originalPrice},
+        discounted_price = #{discountedPrice},
+        in_stock = #{inStock},
+        title = #{title},
+        description = #{description},
+        detail_img = #{detailImg},
+        product_img = #{productImg},
+        is_promotion = #{isPromotion},
+        is_season = #{isSeason},
+        category_id = #{categoryId},
+        type_id = #{typeId},
+        is_shelves = #{isShelves}
+        WHERE id=#{id}
+    </update>
+
+    <update id="delete">
+        UPDATE ft_product SET del_flag = '1' WHERE id = #{id}
+    </update>
+</mapper>
