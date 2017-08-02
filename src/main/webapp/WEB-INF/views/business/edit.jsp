@@ -29,7 +29,11 @@
 </head>
 
 <body>
-<h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/business/businessInfo"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
+<h3 class="back-rel">
+    <a class="back-btn-a" href="${ctx}/back/business/businessInfo">
+        <i class="iconfont icon-fanhui"></i>&nbsp;返回
+    </a>
+</h3>
 <div class="form-table">
     <form class="registerform" id="personform" action="${ctx}/back/business/save" method="post" enctype="multipart/form-data">
         <input type="hidden" name="user.id" value="${business.user.id}">

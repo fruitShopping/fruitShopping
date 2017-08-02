@@ -159,7 +159,7 @@ public class UserController {
         //查询角色数据
         List<Role> roleList = roleService.findAllList();
         model.addAttribute("roleList",roleList);
-        model.addAttribute("sys",user);
+        model.addAttribute("user",user);
         return "users/edit";
     }
 

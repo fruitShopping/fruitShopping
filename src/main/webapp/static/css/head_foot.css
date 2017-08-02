@@ -1,0 +1,319 @@
+@charset "UTF-8";
+/*css 初始化 */
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img { margin:0; padding:0; }
+fieldset, img,input,button { border:none; padding:0;margin:0;outline-style:none; }
+ul, ol { list-style:none; }
+input { padding-top:0; padding-bottom:0; font-family: "SimSun","宋体";}
+select, input { vertical-align:middle;}
+select, input, textarea { font-size:12px; margin:0; }
+textarea { resize:none; } /*防止拖动*/
+img {border:0; vertical-align:middle; }  /*  去掉图片低测默认的3像素空白缝隙*/
+table { border-collapse:collapse; }
+body {
+    font:12px/150% Arial,Verdana,"\5b8b\4f53";
+    color:#666;
+    background:#fff;
+}
+.clearfix:before,.clearfix:after {
+    content:"";
+    display:table;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+    *zoom:1;/*IE/7/6*/
+}
+.titleColor{
+	color: #8fb13d;
+}
+a {color:#666; text-decoration:none; }
+a:hover{color:#C81623;}
+h1,h2,h3,h4,h5,h6 {text-decoration:none;font-weight:normal;font-size:100%;}
+s,i,em{font-style:normal;text-decoration:none;}
+.col-red{color: #C81623!important;}
+
+/*公共类*/
+.w {  /*版心 提取 */
+    width: 1210px;margin:0 auto;
+  
+}
+.fl {
+    float:left
+}
+.fr {
+    float:right
+}
+.al {
+    text-align:left
+}
+.ac {
+    text-align:center
+}
+.ar {
+    text-align:right
+}
+.hide {
+    display:none
+}
+/*头部开始nav*/
+/*头部nav开始*/
+.shortcut{
+	height: 30px;
+	line-height: 30px;
+	background-color: #f1f1f1;
+}
+.dt,
+.shortcut .fore
+{
+	padding: 0 20px 0 10px;
+	position: relative;
+}
+.dt i,.fore i{
+	font: 400 15px/15px "宋体";/*font:字体加粗 字号/行高 字体(必须有字号和字体)*/
+	position: absolute;
+	top: 13px;
+	right: 3px;
+	height: 7px;
+	width:15px ;
+	overflow: hidden;
+}
+.dt s ,.fore s{
+	position: absolute;
+	top: -8px;
+}
+.dd div{
+	margin-left: 8px;
+}
+.dd i{
+	position: absolute;
+    right: 0px;
+    color: white;
+    margin-top: 6px;
+}
+.dd h3{
+	
+	line-height: 31px;
+	color: white;
+	font-size: 14px;
+}
+.dd a{
+	color: white;
+}
+.fr li{
+	float: left;
+	padding: 0 10px;
+}
+.fr .line{
+	width: 2px;
+	height: 13px;
+	background-color: #ddd;
+	margin-top: 9px;
+	padding: 0px;
+}
+.shortcut .tel-jd{
+	padding: 0 20px 0 25px;
+}
+.tel{
+	position: absolute;	
+	width: 15px;
+	height: 20px;
+	background: url(../img/jd2015img.png)no-repeat;
+	top:5px;
+	left: 5px;
+	overflow: hidden;
+}
+/*头部nav end*/
+
+/*TopBanner begin*/
+.topbanner{
+	background-color:  #a500ff;
+}
+.close-banner{
+	position: absolute;
+/*    right: 0px;
+*/	top: 5px;
+    right: 0px;
+    margin-top: 5px;
+	width: 19px;
+	height: 19px;
+	background: url(../img/x.png) no-repeat;
+	top: 0px;
+}
+.close-banner:hover{
+	background-position: bottom;
+}
+.tp{
+	position: relative;
+}
+.logo{
+	width: 360px;
+	height: 75px;
+	padding-top: 25px;
+	float: left;
+	position: relative;
+    margin-right: 20px;
+}
+
+.tabCom{
+	width: 420px;
+	height: 50px;
+	margin-left: 350px;
+	
+}
+.tabCom li{
+	float: left;
+	width: 100px;
+	height: 50px;
+	border-left: 1px solid #eeeeee;	
+}
+.tabCom li:hover{
+	color: #8FB13D;
+}
+
+.tabCom li p,.tabCom li span{
+	font-size: 16px;
+	color: #999999;
+	line-height: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.tabCom li span{
+	margin-left: 23px;
+}
+.db11{
+	position: absolute;
+	width: 180px;
+	height: 60px;
+	margin: 10px;
+	top: 10px;
+	left: 0px;
+}
+.search{
+	width: 300px;
+	height: 75px;
+	float: right;
+	margin-top: 30px;
+	margin-right: 60px;
+	
+}
+.search input{
+	width: 270px;
+	height: 32px;
+	border: 2px solid #8fb13d;
+	padding-left: 5px;
+	font: 14px/32px "微软雅黑";
+	color: #666666;
+	
+}
+.search .hot_kinds li{
+	float: left;
+	color: #999999;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+.search button{
+	height: 36px;
+	width: 79px;
+	background-color: #B61D1D;
+	font: 16px/36px"微软雅黑";
+	color: #FFFFFF;
+	cursor: pointer;/*鼠标变成小手*/
+	float: right;
+	position: absolute;
+	
+}
+
+.car{
+	width: 140px;
+	height: 34px;
+    float: right;
+    margin: 30px 125px 0 25px;
+    position: relative;
+    left: 530px;
+  
+}
+/* 购物的图标*/
+.iocn1{
+	position: absolute;
+	background: url(../img/jd2015img.png) no-repeat;
+	width: 30px;
+	height: 27px;
+	top: 5px;
+	left: 20px;
+	
+ }
+ .iocn3{
+ 	position: absolute;
+ 	width: 16px;
+ 	height: 14px;
+ 	font-size: 12px;
+ 	background-color: #C81623;
+ 	text-align: center;
+ 	line-height: 14px;
+ 	color: #F1F1F1;
+ 	top: -6px;
+ 	left: 47px;
+ 	border-radius: 7px 7px 7px 0;
+     	
+ }
+ 
+/*尾部*/
+.foot{
+	width: 100%;
+	position: relative;
+	background-color: #10c36b;
+}
+.foot img.trangle{
+	width: 100%;
+	height: 19px;
+	margin-top: -19px;
+	position: absolute;
+}
+.foot .bg{
+	height: 280px;
+}
+.foot .bg .lamn{
+	height: 100px;
+	border-bottom: 1px solid #FFFFFF;
+}
+.foot .bg .intro{
+	margin-top: 20px;
+	
+}
+.foot .bg .intro dl{
+	float: left;
+	
+}
+.foot .bg .intro dl dt{
+	font-size: 18px;
+	margin-right: 206px;
+	color: #FFFFFF;
+}
+.foot .bg .intro dl dd{
+	font-size: 14px;
+	margin-top: 12px;
+	color: #FFFFFF;
+}
+.foot .bg li{
+	color: #FFFFFF;
+	float: left;
+	width: 259px;
+	margin-top: 30px;
+	margin-left: 20px;
+}
+.foot .bg li img{
+	width: 52px;
+	height: 52px;
+	margin-right: 10px;
+	float: left;
+}
+
+.foot .bg li span{
+	width: 100px;
+	height: 20px;
+	display:block;
+	float: left;
+	font-size: 24px;
+	margin-top: 17px;
+}
+

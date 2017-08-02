@@ -60,8 +60,8 @@
                 <input type="text" class="form-control inputXt" placeholder="图标样式" name="icon" value="${menu.icon}"/>
             </div>
             <div class="filedList">
-                <label>菜单级别</label>
-                <input type="text" class="form-control inputXt" placeholder="菜单级别" name="sort" value="${menu.sort}"/>
+                <label>排序</label>
+                <input type="text" class="form-control inputXt" placeholder="排序" name="sort" value="${menu.sort}"/>
             </div>
             <div class="filedList">
                 <label>是否显示</label>

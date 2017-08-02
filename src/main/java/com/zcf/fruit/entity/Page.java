@@ -4,7 +4,7 @@ package com.zcf.fruit.entity;
  * Created by tao on 2014/12/11.
  */
 public class Page {
-    public static final int DEFAULT_SIZE = 5;
+    public static final int DEFAULT_SIZE = 10;
     private int currentPage = 0;
     private int size = DEFAULT_SIZE;
     private int begin;

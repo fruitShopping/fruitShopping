@@ -65,6 +65,67 @@ public class FileUpload {
         return imgURL;
     }
 
+    public static String[] productUpload(HttpServletRequest request, String filePath) throws IllegalStateException, IOException
+    {
+        String productImg = "";
+        String detailImg = "";
+        //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
+        CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        //检查form中是否有enctype="multipart/form-data"
+        if(multipartResolver.isMultipart(request))
+        {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+            //获取multiRequest 中所有的文件名
+            Iterator iter=multiRequest.getFileNames();
+
+            while(iter.hasNext())
+            {
+                //一次遍历所有文件
+                MultipartFile file=multiRequest.getFile(iter.next().toString());
+                if(file != null && file.getSize() > 0)
+                {
+                    String realPath = request.getSession().getServletContext().getRealPath("/") + filePath;
+                    String inputName = file.getName();
+                    String fileName = FileNameUtils.genFileName("png");
+                    String path = realPath + fileName;
+                    if(inputName.indexOf("productImg") != -1){
+                        productImg = productImg + filePath + fileName + ",";
+                    }else{
+                        detailImg = detailImg + filePath + fileName + ",";
+                    }
+
+                    System.out.println(path);
+                    //上传
+                    File file2 = new File(realPath);
+                    //如果文件夹不存在则创建
+                    if  (!file2 .exists()  && !file2 .isDirectory())
+                    {
+                        System.out.println("//不存在");
+                        file2 .mkdir();
+                    } else
+                    {
+                        System.out.println("//目录存在");
+                    }
+                    file.transferTo(new File(path));
+                }
+            }
+        }
+        if(productImg.length() > 0){
+            productImg = productImg.substring(0,productImg.length()-1);
+        }
+        if(detailImg.length() > 0){
+            detailImg = detailImg.substring(0,detailImg.length()-1);
+        }
+//        System.out.println("productImg==="+productImg);
+//        System.out.println("detailImg==="+detailImg);
+        String[] imgArr = new String[2];
+        imgArr[0] = productImg;
+        imgArr[1] = detailImg;
+        return imgArr;
+    }
+
     /**
      * 文件删除
      * @param request 请求

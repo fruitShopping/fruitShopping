@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.product.CategoryDao">
+    <sql id="categoryColumns">
+      c.id,
+      c.category_name AS categoryName,
+      c.is_shelves AS isShelves,
+      c.create_time AS createTime,
+      d.name AS breedName
+    </sql>
+    <sql id="joinColumns">
+      LEFT JOIN sys_dictionary d ON d.id = c.type_id
+    </sql>
+
+    <select id="findPageList" resultType="CategoryEntity">
+        SELECT
+        <include refid="categoryColumns"/>
+        FROM ft_category c
+        <include refid="joinColumns"/>
+        limit #{begin},#{size}
+    </select>
+
+    <select id="findTotal" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM ft_category
+    </select>
+
+    <select id="findById" resultType="CategoryEntity">
+        SELECT * FROM  ft_category WHERE id = #{id}
+    </select>
+
+    <select id="findCateByCode" resultType="CategoryEntity">
+      SELECT
+        <include refid="categoryColumns"/>
+      FROM  ft_category c
+      <include refid="joinColumns"/>
+      WHERE c.type_id = #{typeId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ft_category (category_name,is_shelves,type_id,create_time)
+        VALUES (#{categoryName},#{isShelves},#{typeId},now())
+    </insert>
+
+    <update id="update">
+        UPDATE ft_category SET
+        category_name = #{categoryName},
+        is_shelves = #{isShelves},
+        type_id = #{typeId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM ft_category WHERE id=#{id}
+    </delete>
+</mapper>

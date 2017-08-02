@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcf.fruit.dao.mysqlDao.product.ProductSalesDao">
+    <sql id="productSalesColumns">
+        ps.id,
+        ps.sales_method AS salesMethod,
+        ps.pounds_num AS poundsNum,
+        ps.product_id AS productId,
+        ps.is_free_post AS isFreePost,
+        ps.free_post_jin AS freePostJin,
+        ps.fruit_score AS fruitScore,
+        ps.post_money AS postMoney,
+        p.product_name AS productName
+    </sql>
+    <sql id="joinTables">
+        LEFT JOIN ft_product p ON p.id = ps.product_id
+        LEFT JOIN ft_business b ON b.id = p.businessmen_id
+    </sql>
+    <!-- 分页查询 -->
+    <select id="findList" resultType="ProductSalesEntity">
+        SELECT
+        <include refid="productSalesColumns"/>
+        FROM ft_product_sales ps
+        <include refid="joinTables"/>
+        WHERE ps.del_flag = '0'
+        <if test="!isAdmin">
+            AND b.user_id = #{userId}
+        </if>
+        <if test="productId != null and productId != ''">
+            AND ps.product_id = #{productId}
+        </if>
+        ORDER  BY  ps.create_time DESC
+        limit #{page.begin},#{page.size}
+    </select>
+    <select id="listTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ft_product_sales ps
+        <include refid="joinTables"/>
+        WHERE ps.del_flag = '0'
+        <if test="!isAdmin">
+            AND b.user_id = #{userId}
+        </if>
+        <if test="productId != null and productId != ''">
+            AND ps.product_id = #{productId}
+        </if>
+    </select>
+
+    <select id="findById" resultType="ProductSalesEntity">
+        SELECT
+        <include refid="productSalesColumns"/>
+        FROM ft_product_sales ps
+        <include refid="joinTables"/>
+        WHERE ps.id = #{id} AND ps.del_flag = '0'
+    </select>
+
+    <select id="findByProId" resultType="ProductSalesEntity">
+        SELECT
+        <include refid="productSalesColumns"/>
+        FROM ft_product_sales ps
+        <include refid="joinTables"/>
+        WHERE ps.product_id = #{productId} AND ps.del_flag = '0'
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ft_product_sales (
+        sales_method,
+        pounds_num,
+        product_id,
+        is_free_post,
+        free_post_jin,
+        fruit_score,
+        post_money,
+        create_time
+        ) VALUES (
+        #{salesMethod},
+        #{poundsNum},
+        #{productId},
+        #{isFreePost},
+        #{freePostJin},
+        #{fruitScore},
+        #{postMoney},
+        now()
+        )
+    </insert>
+    <update id="update">
+        UPDATE ft_product_sales SET
+        sales_method = #{salesMethod},
+        pounds_num = #{poundsNum},
+        is_free_post = #{isFreePost},
+        free_post_jin = #{freePostJin},
+        fruit_score = #{fruitScore},
+        post_money =  #{postMoney}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        UPDATE ft_product_sales SET
+        del_flag = '1' WHERE id=#{id}
+    </delete>
+</mapper>

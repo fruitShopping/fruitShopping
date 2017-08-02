@@ -14,7 +14,7 @@
 
     <!--ehcache-->
     <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:spring/ehcache/ehcache.xml"/>
+        <property name="configLocation" value="classpath:ehcache.xml"/>
     </bean>
 
     <!--&lt;!&ndash; 缓存管理器 &ndash;&gt;-->
@@ -22,7 +22,7 @@
         <property name="cacheManager" ref="springCacheManager"/>
     </bean>
 
-     <!--凭证匹配器 -->
+    <!--凭证匹配器 -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
@@ -100,7 +100,7 @@
     </bean>
 
     <bean id="userAnyRolesFilter" class="com.zcf.fruit.filter.AnyRolesFilter">
-        <property name="unauthorizedUrl" value="/main/"/>
+        <property name="unauthorizedUrl" value="/main"/>
         <property name="loginUrl" value="/login"/>
     </bean>
     <!--基于Form表单的身份验证过滤器-->
@@ -119,6 +119,7 @@
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/back/index"/>
+        <property name="unauthorizedUrl" value="/main" />
         <property name="filters">
             <util:map>
                 <entry key="userAuthc" value-ref="userAuthenticationFilter"/>
@@ -132,6 +133,7 @@
                 /back/** = userAuthc
                 /login = userAuthc
                 /logout = logout
+                /main/**=anon
                 /* = user
             </value>
         </property>
