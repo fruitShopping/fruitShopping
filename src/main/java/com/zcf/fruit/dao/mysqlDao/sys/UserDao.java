@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zjj-ideapad on 2015/3/26.
@@ -20,7 +21,7 @@ public interface UserDao{
     public User findUserBus(@Param("username") String username,
                             @Param("loginName") String loginName);
 
-    public String findByRoleIds(@Param("username") String username);
+    public List<Map<String,String>> findByRoleIds(@Param("username") String username);
 
     public List<User> getUsersList(@Param("page") Page page,@Param("username") String username,@Param("mobile") String mobile);
 

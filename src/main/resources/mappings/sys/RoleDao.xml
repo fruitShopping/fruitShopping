@@ -20,7 +20,7 @@
 		<include refid="roleColumns"/>
 		FROM sys_role r WHERE r.role_name=#{roleName}
 	</select>
-	<select id="findUserRoleId" resultType="java.lang.Integer">
+	<select id="findUserRoleId" resultType="Map">
 		SELECT role_id from sys_user_role WHERE user_id = #{userId}
 	</select>
 	<select id="findOne" resultType="Role">

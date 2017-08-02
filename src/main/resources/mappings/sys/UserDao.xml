@@ -27,20 +27,20 @@
 		LEFT JOIN sys_role r ON r.id = ur.role_id
 	</sql>
 	<!-- 根据用户名查询用户 -->
-	<select id="findByUsername" resultMap="User">
+	<select id="findByUsername" resultType="User">
 		SELECT
 		<include refid="userColumns"/>
 		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
 	</select>
 
-	<select id="findUserBus" resultMap="User">
+	<select id="findUserBus" resultType="User">
 		SELECT * FROM sys_user u  WHERE u.username != #{username} AND u.username  = #{loginName}
 	</select>
 	<!-- 根据登录名查询用户角色 -->
-	<select id="findByRoleIds">
+	<select id="findByRoleIds" resultType="Map">
 		SELECT r.authority_ids FROM sys_user u,sys_role r,sys_user_role ur
-		 WHERE r.id = ur.role_id AND ur.user_id = u.id" +
-		 AND u.username = #{username} AND a.del_flag = '0'
+		 WHERE r.id = ur.role_id AND ur.user_id = u.id
+		 AND u.username = #{username} AND u.del_flag = '0'
 	</select>
 
 	<!-- 根据登录名查询用户列表 -->
@@ -160,22 +160,6 @@
 		identity_card_num = #{identityCardNum}
 		WHERE id = #{id}
 	</update>
-
-	<!--&lt;!&ndash; 删除用户和角色关联表数据 &ndash;&gt;-->
-	<!--<delete id="deleteUserRole">-->
-		<!--DELETE FROM sys_user_role WHERE user_id = #{id}-->
-	<!--</delete>-->
-
-	<!--&lt;!&ndash; 插入用户和角色关联表数据 &ndash;&gt;-->
-	<!--<insert id="insertUserRole">-->
-		<!--INSERT INTO sys_user_role(user_id, role_id)-->
-		<!--<foreach collection="roleList" item="role" separator=" union all ">-->
-			<!--SELECT #{id}, #{role.id}-->
-			<!--<if test="dbName != 'mssql'">-->
-			<!--FROM dual-->
-			<!--</if>-->
-		<!--</foreach>-->
-	<!--</insert>-->
 
 	<!-- 更新用户密码 -->
 	<update id="updatePasswordById">

@@ -6,10 +6,7 @@ import com.zcf.fruit.service.sys.RoleService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户服务类
@@ -29,20 +26,30 @@ public class AuthUserService {
         return roleService.findRoles(user.getId());
     }
 
-    public String findByRoleIds(String username) {
+    public List<Map<String,String>> findByRoleIds(String username) {
         return userDao.findByRoleIds(username);
     }
 
     public Set<String> findPermissions(String username) {
-        String RoleIds =findByRoleIds(username);
-        if(RoleIds.isEmpty()) {
+        List<Map<String,String>> roleIds =findByRoleIds(username);
+        if(roleIds.size() == 0) {
             return Collections.EMPTY_SET;
         }
-        String[] idsStr = RoleIds.split(",");
+        //Arrays.asList(arr).contains(targetValue)
         List<Integer> idsList = new ArrayList<Integer>();
-        for(int i=0 ; i<idsStr.length;i++){
-            idsList.add(Integer.parseInt(idsStr[i]));
+        for(Map roleIdMap : roleIds){
+            String roleIdStr = roleIdMap.get("authority_ids").toString();
+            String[] arr = roleIdStr.split(",");
+            for(String a : arr){
+                if(!idsList.contains(Integer.parseInt(a))){
+                    idsList.add(Integer.parseInt(a));
+                }
+            }
         }
+//        List<Integer> idsList = new ArrayList<Integer>();
+//        for(int i=0 ; i<idsStr.length;i++){
+//            idsList.add(Integer.parseInt(idsStr[i]));
+//        }
         return authorityService.findPermissions(idsList);
     }
 

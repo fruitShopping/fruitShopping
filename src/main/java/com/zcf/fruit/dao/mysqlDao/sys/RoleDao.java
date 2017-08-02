@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 角色JDBC层
@@ -19,7 +20,7 @@ public interface RoleDao extends BaseDao<Role> {
 
     public Role findOneByName(@Param("roleName") String roleName);
 
-    public int findUserRoleId(@Param("userId") Long userId);
+    public List<Map<String,Integer>> findUserRoleId(@Param("userId") Long userId);
 
     public Role findOne(@Param("id") int roleId);
 

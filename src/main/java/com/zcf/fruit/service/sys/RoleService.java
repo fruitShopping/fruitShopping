@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,14 +24,14 @@ public class RoleService {
     }
 
     public Set<String> findRoles(Long userId) {
-        int roleId = roleDao.findUserRoleId(userId);
+        List<Map<String,Integer>> roleIds = roleDao.findUserRoleId(userId);
         Set<String> roles = new HashSet<String>();
-//        for(int roleId : roleIds) {
-        Role role = findOne(roleId);
-        if(role != null) {
-            roles.add(role.getRoleName());
+        for(Map roleIdMap : roleIds) {
+            Role role = findOne((Integer) roleIdMap.get("role_id"));
+            if(role != null) {
+                roles.add(role.getRoleName());
+            }
         }
-//        }
         return roles;
     }
 

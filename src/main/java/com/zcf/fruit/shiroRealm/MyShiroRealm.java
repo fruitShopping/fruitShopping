@@ -1,7 +1,7 @@
 package com.zcf.fruit.shiroRealm;
 
 import com.zcf.fruit.common.utils.Servlets;
-import com.zcf.fruit.common.utils.SpringContextHolder;
+import java.util.Set;
 import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.service.SystemService;
 import com.zcf.fruit.service.authuser.AuthUserService;
@@ -20,6 +20,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 
@@ -28,27 +29,25 @@ import java.util.Collection;
  * Created by zjj-ideapad on 2015/3/26.
  */
 public class MyShiroRealm extends AuthorizingRealm {
-    Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
 
+    @Autowired
     private AuthUserService authUserService;
-
+    @Autowired
     private SystemService systemService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        logger.info("--- MyShiroRealm doGetAuthorizationInfo 鉴权---");
         String username = (String)principals.getPrimaryPrincipal();
+        logger.info(username+">>>>>>>>>>>>>>>>>");
 
         //处理session
         DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
         DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
         Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
-//        for(Session session:sessions){
-//            //清除该用户以前登录时保存的session
-//            if(username.equals(String.valueOf(session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY)))) {
-//                sessionManager.getSessionDAO().delete(session);
-//            }
-//        }
+
         if (sessions.size() > 0){
             // 如果是登录进来的，则踢出已在线用户
             if (UserUtils.getSubject().isAuthenticated()){
@@ -66,11 +65,15 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(getAuthUserService().findRoles(username));
-        authorizationInfo.setStringPermissions(getAuthUserService().findPermissions(username));
-        User user = getAuthUserService().findByUsername(username);
+        Set<String> roles=authUserService.findRoles(username);
+        Set<String> permissions=authUserService.findPermissions(username);
+        logger.debug(roles.toString());
+        logger.debug(permissions.toString());
+        authorizationInfo.setRoles(roles);
+        authorizationInfo.setStringPermissions(permissions);
+        User user =authUserService.findByUsername(username);
         // 更新登录IP和时间
-        getSystemService().updateUserLoginInfo(user);
+        systemService.updateUserLoginInfo(user);
         // 记录登录日志
         LogUtils.saveLog(Servlets.getRequest(), "系统登录");
 
@@ -79,14 +82,14 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        logger.info("--- MyShiroRealm doGetAuthenticationInfo 登录---");
         String username = (String) token.getPrincipal();
         if (logger.isDebugEnabled()){
             logger.debug("login submit, active session size: {}, username: {}", username);
         }
 
 
-        User user = getAuthUserService().findByUsername(username);
-
+        User user = authUserService.findByUsername(username);
         if (user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
@@ -94,12 +97,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (Boolean.TRUE.equals(user.getLocked())) {
             throw new LockedAccountException(); //帐号锁定
         }
-//            User user2 = new User();
-//        user2.setUsername("admin");
-//        user2.setPassword("system");
-//        PasswordHelper aa = new PasswordHelper();
-//        aa.encryptPassword(user2);
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user.getUsername(), //用户名
                 user.getPassword(), //密码
@@ -119,6 +117,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         AuthorizationInfo info = (AuthorizationInfo) UserUtils.getCache(UserUtils.CACHE_AUTH_INFO);;
 
+        System.out.print(info == null);
         if (info == null) {
             info = doGetAuthorizationInfo(principals);
             if (info != null) {
@@ -129,24 +128,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         return info;
     }
 
-    /**
-     * 获取系统业务对象
-     */
-    public SystemService getSystemService() {
-        if (systemService == null){
-            systemService = SpringContextHolder.getBean(SystemService.class);
-        }
-        return systemService;
-    }
-    /**
-     * 获取系统业务对象
-     */
-    public AuthUserService getAuthUserService() {
-        if (authUserService == null){
-            authUserService = SpringContextHolder.getBean(AuthUserService.class);
-        }
-        return authUserService;
-    }
 
     /**
      * 授权用户信息

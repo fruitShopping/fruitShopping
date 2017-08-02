@@ -9,12 +9,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,70 +31,61 @@ import java.util.Collection;
  */
 @Controller
 public class LoginController {
-    private Logger logger = org.slf4j.LoggerFactory.getLogger(LoginController.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @RequestMapping(value = {"","/"})
     public String home(HttpServletRequest request, HttpServletResponse response){
-        String username = UserUtils.getPrincipal();
+//        String username = UserUtils.getPrincipal();
 
         // 登录成功后，验证码计算器清零
 //        isValidateCodeLogin(principal.getLoginName(), false, true);
 
         // 如果已登录，再次访问主页，则退出原账号。
-        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
-            String logined = CookieUtils.getCookie(request, "LOGINED");
-            if (StringUtils.isBlank(logined) || "false".equals(logined)){
-                CookieUtils.setCookie(response, "LOGINED", "true");
-            }else if (StringUtils.equals(logined, "true")){
-                UserUtils.getSubject().logout();
-                return "redirect:/login";
-            }
-        }
-
+//        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
+//            String logined = CookieUtils.getCookie(request, "LOGINED");
+//            if (StringUtils.isBlank(logined) || "false".equals(logined)){
+//                CookieUtils.setCookie(response, "LOGINED", "true");
+//            }else if (StringUtils.equals(logined, "true")){
+//                UserUtils.getSubject().logout();
+//                return "redirect:/login";
+//            }
+//        }
         return "redirect:/back/index";
+//        return "redirect:/main";
     }
 
     /**
      * 管理登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-        String username = UserUtils.getPrincipal();
-
-//		// 默认页签模式
-//		String tabmode = CookieUtils.getCookie(request, "tabmode");
-//		if (tabmode == null){
-//			CookieUtils.setCookie(response, "tabmode", "1");
-//		}
-
-        if (logger.isDebugEnabled()){
-            //处理session
-            DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-            DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
-            Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
-            logger.debug("login, active session size: {}", sessions.size());
-        }
-
-        // 如果已登录，再次访问主页，则退出原账号。
-        if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
-            CookieUtils.setCookie(response, "LOGINED", "false");
-        }
-
-        // 如果已经登录，则跳转到管理首页
-        if(username != null && username != ""){
-            return "redirect:/back/index";
-        }
-
+    public String login() {
         return "sys/login";
     }
-
     /**
      * 登录失败，真正登录的POST请求由Filter完成
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String showLoginForm(HttpServletRequest request, Model model) {
-        String username = UserUtils.getPrincipal();
+        String usernames = UserUtils.getPrincipal();
+        logger.debug("UserUtils.getPrincipal => " + usernames);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        logger.debug("username => " + username);
+        logger.debug("password => " + password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
+        Subject subject = SecurityUtils.getSubject();
 
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        } catch (IncorrectCredentialsException e){
+            e.printStackTrace();
+            logger.error("密码不匹配(生产环境中应该写:用户名和密码的组合不正确)");
+        } catch (LockedAccountException e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
         // 如果已经登录，则跳转到管理首页
         if(username != null && username != ""){
             return "redirect:/back/index";
@@ -115,6 +109,10 @@ public class LoginController {
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
         model.addAttribute("error", error);
         return "sys/login";
+    }
+    @RequestMapping(value = "/unAuthorization")
+    public String unAuthorization(){
+        return "unAuthorization";
     }
 
 }
