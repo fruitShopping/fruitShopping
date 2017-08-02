@@ -25,7 +25,7 @@ public class AuthorityService {
         for(int authorityId : authorityIds) {
             Authority authority = findOne(authorityId);
             if(authority != null && !StringUtils.isEmpty(authority.getPermission())) {
-                permissions.add(authority.getPermission());
+                permissions.add(authority.getUrl());
             }
         }
         return permissions;

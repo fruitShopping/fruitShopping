@@ -43,7 +43,7 @@
             width : 200, //预览图片的宽度，单位px
             height : 200, //预览图片的高度，单位px
             allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
-            maxSize :2, //允许上传图片的最大尺寸，单位M
+            maxSize :5, //允许上传图片的最大尺寸，单位M
             success:function(e){
                 /*alert('图片上传成功');*/
                 $(".bg-one").hide();
