@@ -23,7 +23,7 @@ import java.util.Date;
  * @version 2013-12-05
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class SystemService implements InitializingBean {
 
 	@Autowired

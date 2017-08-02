@@ -9,6 +9,7 @@ import com.zcf.fruit.entity.sys.DictEntity;
 import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.util.LogUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by zcf on 2017/6/27.
  */
 @Service
+@Transactional
 public class DictService {
     /**
      * 字典信息分页查询

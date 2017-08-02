@@ -44,7 +44,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         logger.info(username+">>>>>>>>>>>>>>>>>");
 
         //处理session
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+        /*DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
         DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
         Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
 
@@ -62,13 +62,19 @@ public class MyShiroRealm extends AuthorizingRealm {
                 UserUtils.getSubject().logout();
                 throw new AuthenticationException("msg:账号已在其它地方登录，请重新登录。");
             }
-        }
+        }*/
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         Set<String> roles=authUserService.findRoles(username);
         Set<String> permissions=authUserService.findPermissions(username);
-        logger.debug(roles.toString());
-        logger.debug(permissions.toString());
+        roles.add("/back");
+        permissions.add("back:*");
+        permissions.add("/back");
+        permissions.add("/back/index");
+        permissions.add("/back/**");
+        logger.debug("roles="+roles.toString());
+        logger.debug("permissions="+permissions.toString());
+
         authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(permissions);
         User user =authUserService.findByUsername(username);

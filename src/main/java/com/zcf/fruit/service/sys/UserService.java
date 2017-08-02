@@ -7,6 +7,7 @@ import com.zcf.fruit.entity.Page;
 import com.zcf.fruit.entity.sys.User;
 import com.zcf.fruit.common.utils.PasswordHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by zjj-ideapad on 2015/3/26.
  */
 @Service
+@Transactional
 public class UserService {
 
     /**

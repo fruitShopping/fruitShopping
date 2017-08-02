@@ -80,7 +80,12 @@
         <property name="sessionValidationScheduler" ref="sessionValidatoinScheduler"/>
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+       <!-- <property name="sessionIdCookie" ref="sessionIdCookie"/>-->
+        <property name="sessionIdCookie">
+            <bean class="org.apache.shiro.web.servlet.SimpleCookie">
+                <property name="name" value="JSESSID" />
+            </bean>
+        </property>
     </bean>
 
     <!-- 安全管理器 -->

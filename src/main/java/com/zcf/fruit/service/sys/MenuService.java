@@ -8,6 +8,7 @@ import com.zcf.fruit.entity.sys.Menu;
 import com.zcf.fruit.util.LogUtils;
 import com.zcf.fruit.util.UserUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
  * Created by zcf on 2017/6/16.
  */
 @Service
+@Transactional
 public class MenuService {
     @Inject
     private MenuDao menuDao;

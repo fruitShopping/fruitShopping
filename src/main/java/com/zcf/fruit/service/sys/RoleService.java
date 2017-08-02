@@ -3,6 +3,7 @@ package com.zcf.fruit.service.sys;
 import com.zcf.fruit.dao.mysqlDao.sys.RoleDao;
 import com.zcf.fruit.entity.sys.Role;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
  * Created by zjj-ideapad on 2015/3/26.
  */
 @Service
+@Transactional
 public class RoleService {
     public Role findOneByName(String roleName) {
         return roleDao.findOneByName(roleName);
