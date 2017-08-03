@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.sys.DictDao">
+<mapper namespace="com.fruit.dao.sys.DictDao">
 
     <select id="findPageList" resultType="DictEntity">
         SELECT
         *
-        FROM sys_dictionary limit #{begin},#{size}
+        FROM t_dat_dictionary limit #{begin},#{size}
     </select>
 
     <select id="findTotal" resultType="java.lang.Integer">
          SELECT
          COUNT(1)
-        FROM sys_dictionary
+        FROM t_dat_dictionary
     </select>
     <select id="findByCode" resultType="DictEntity">
-        SELECT * FROM  sys_dictionary WHERE code = #{code}
+        SELECT * FROM  t_dat_dictionary WHERE code = #{code}
     </select>
     <select id="findById" resultType="DictEntity">
-        SELECT * FROM  sys_dictionary WHERE id = ${dictId}
+        SELECT * FROM  t_dat_dictionary WHERE id = ${dictId}
     </select>
     <insert id="insert">
-        INSERT INTO sys_dictionary (name,code) VALUES (#{name},#{code})
+        INSERT INTO t_dat_dictionary (name,code) VALUES (#{name},#{code})
     </insert>
     <update id="update">
-        UPDATE sys_dictionary SET name = #{name},code = #{code} WHERE id = #{id}
+        UPDATE t_dat_dictionary SET name = #{name},code = #{code} WHERE id = #{id}
     </update>
     <delete id="delete">
-        DELETE FROM sys_dictionary WHERE id=#{id}
+        DELETE FROM t_dat_dictionary WHERE id=#{id}
     </delete>
 </mapper>

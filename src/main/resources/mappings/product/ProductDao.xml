@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.product.ProductDao">
+<mapper namespace="com.fruit.dao.product.ProductDao">
     <sql id="productColumns">
         p.id,
         p.businessmen_id AS businessmenId,
@@ -25,16 +25,16 @@
         p.is_shelves AS isShelves
     </sql>
     <sql id="joinsTable">
-        LEFT JOIN ft_business b ON b.id = p.businessmen_id
-        LEFT JOIN ft_category c ON c.id = p.category_id
-        LEFT JOIN sys_dictionary d ON d.id = p.type_id
-        LEFT JOIN sys_user u ON u.id = b.user_id
+        LEFT JOIN t_biz_business b ON b.id = p.businessmen_id
+        LEFT JOIN t_dat_category c ON c.id = p.category_id
+        LEFT JOIN t_dat_dictionary d ON d.id = p.type_id
+        LEFT JOIN t_sys_user u ON u.id = b.user_id
     </sql>
     <!-- 分页查询 -->
     <select id="getProductList" resultType="ProductEntity">
         SELECT
         <include refid="productColumns"/>
-        FROM ft_product p
+        FROM t_biz_product p
         <include refid="joinsTable"/>
         WHERE p.del_flag = #{delFlag}
         <if test="!isAdmin">
@@ -51,7 +51,7 @@
     </select>
 
     <select id="productListTotal" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM ft_product p
+        SELECT COUNT(1) FROM t_biz_product p
         <include refid="joinsTable"/>
         WHERE p.del_flag = #{delFlag}
         <if test="!isAdmin">
@@ -68,7 +68,7 @@
     <select id="findAllProduct" resultType="ProductEntity">
         SELECT
         <include refid="productColumns"/>
-        FROM ft_product p
+        FROM t_biz_product p
         <include refid="joinsTable"/>
         WHERE p.del_flag = '0'
         <if test="!isAdmin">
@@ -80,13 +80,13 @@
     <select id="findById" resultType="ProductEntity">
         SELECT
         <include refid="productColumns"/>
-        FROM ft_product p
+        FROM t_biz_product p
         <include refid="joinsTable"/>
         WHERE p.id = #{id}
     </select>
 
     <insert id="insert">
-        INSERT INTO ft_product(
+        INSERT INTO t_biz_product(
         businessmen_id,
         product_name,
         original_price,
@@ -123,7 +123,7 @@
     </insert>
 
     <update id="update">
-      UPDATE ft_product SET
+      UPDATE t_biz_product SET
         product_name = #{productName},
         original_price = #{originalPrice},
         discounted_price = #{discountedPrice},
@@ -141,6 +141,6 @@
     </update>
 
     <update id="delete">
-        UPDATE ft_product SET del_flag = '1' WHERE id = #{id}
+        UPDATE t_biz_product SET del_flag = '1' WHERE id = #{id}
     </update>
 </mapper>

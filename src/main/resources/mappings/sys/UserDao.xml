@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.sys.UserDao">
-	<resultMap id="User" type="com.zcf.fruit.entity.sys.User"></resultMap>
+<mapper namespace="com.fruit.dao.sys.UserDao">
+	<resultMap id="User" type="com.fruit.entity.sys.User"></resultMap>
 	<sql id="userColumns">
 		u.id,
 		u.username,
@@ -23,24 +23,25 @@
 		u.del_flag AS delFlag
 	</sql>
 	<sql id="roleJoins">
-		LEFT JOIN sys_user_role ur ON ur.user_id = u.id
-		LEFT JOIN sys_role r ON r.id = ur.role_id
+		LEFT JOIN t_sys_user_role ur ON ur.user_id = u.id
+		LEFT JOIN t_sys_role r ON r.id = ur.role_id
 	</sql>
 	<!-- 根据用户名查询用户 -->
 	<select id="findByUsername" resultType="User">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
+		FROM t_sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
 	</select>
 
 	<select id="findUserBus" resultType="User">
-		SELECT * FROM sys_user u  WHERE u.username != #{username} AND u.username  = #{loginName}
+		SELECT * FROM t_sys_user u  WHERE u.username != #{username} AND u.username  = #{loginName}
 	</select>
 	<!-- 根据登录名查询用户角色 -->
 	<select id="findByRoleIds" resultType="Map">
-		SELECT r.authority_ids FROM sys_user u,sys_role r,sys_user_role ur
-		 WHERE r.id = ur.role_id AND ur.user_id = u.id
-		 AND u.username = #{username} AND u.del_flag = '0'
+		SELECT DISTINCT u.username,r.`name`,r.name_zh,r.id as role_id FROM t_sys_user u
+		LEFT JOIN t_sys_user_role ur on u.id=ur.user_id
+		LEFT JOIN t_sys_role  r on ur.role_id=r.id
+		WHERE 1=1 AND u.username = #{username} AND u.del_flag = '0'
 	</select>
 
 	<!-- 根据登录名查询用户列表 -->
@@ -48,7 +49,7 @@
 		SELECT
 		<include refid="userColumns"/>,
 		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
-		FROM sys_user u
+		FROM t_sys_user u
 		<include refid="roleJoins"/>
 		WHERE u.del_flag = '0'
 		<if test="username != '' and username != null">
@@ -83,7 +84,7 @@
 	<select id="getUsersListTotal" resultType="java.lang.Integer">
 		SELECT
 			COUNT(1)
-		FROM sys_user u
+		FROM t_sys_user u
 		WHERE u.del_flag = '0'
 		<if test="username != '' and username != null">
 			AND u.username like CONCAT('%', #{username}, '%')
@@ -95,12 +96,12 @@
 
 	<!-- 更新用户锁 -->
 	<select id="doLocked" >
-		UPDATE sys_user SET locked = #{num} WHERE id = #{userId}
+		UPDATE t_sys_user SET locked = #{num} WHERE id = #{userId}
 	</select>
 
 	<!-- 删除用户 -->
 	<select id="userDel" >
-		UPDATE sys_user set del_flag = '1' WHERE id = #{userId}
+		UPDATE t_sys_user set del_flag = '1' WHERE id = #{userId}
 	</select>
 
 	<!-- 根据用户ID查询用户 -->
@@ -108,19 +109,19 @@
 		SELECT
 		<include refid="userColumns"/>,
 		group_concat(r.description) AS roleNames,group_concat(r.id) AS roleIdsStr
-		 FROM sys_user u
+		 FROM t_sys_user u
 		<include refid="roleJoins"/>
 		WHERE u.id = #{userId} AND u.del_flag = '0'
 	</select>
 
 	<!-- 根据用户名和密码查询用户 -->
 	<select id="findUserByUserName" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS total FROM sys_user WHERE username = #{username} AND password = #{password}
+		SELECT COUNT(*) AS total FROM t_sys_user WHERE username = #{username} AND password = #{password}
 	</select>
 
 	<!-- 插入用户 -->
 	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO sys_user(
+		INSERT INTO t_sys_user(
 			username,
 			password,
 			telephone,
@@ -153,7 +154,7 @@
 
 	<!-- 更新用户信息 -->
 	<update id="update">
-		UPDATE sys_user SET
+		UPDATE t_sys_user SET
 			username = #{username},
 			password = #{password},
 			telephone = #{telephone},
@@ -171,7 +172,7 @@
 
 	<!-- 商户更新信息 -->
 	<update id="updateBusi">
-		UPDATE sys_user SET
+		UPDATE t_sys_user SET
 		username = #{username},
 		telephone = #{telephone},
 		real_name = #{realName},
@@ -181,7 +182,7 @@
 
 	<!-- 更新用户密码 -->
 	<update id="updatePasswordById">
-		UPDATE sys_user SET
+		UPDATE t_sys_user SET
 			password = #{password},
 			salt = #{salt}
 		WHERE id = #{id}
@@ -189,7 +190,7 @@
 
 	<!-- 更新登录信息，如登录IP、登录时间 -->
 	<update id="updateLoginInfo">
-		UPDATE sys_user SET
+		UPDATE t_sys_user SET
 			login_ip = #{loginIp},
 			login_Date = #{loginDate}
 		WHERE id = #{id}
@@ -197,7 +198,7 @@
 
 	<!-- 逻辑删除用户 -->
 	<update id="delete">
-		UPDATE sys_user SET
+		UPDATE t_sys_user SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.product.ProductSalesDao">
+<mapper namespace="com.fruit.dao.product.ProductSalesDao">
     <sql id="productSalesColumns">
         ps.id,
         ps.sales_method AS salesMethod,
@@ -13,14 +13,14 @@
         p.product_name AS productName
     </sql>
     <sql id="joinTables">
-        LEFT JOIN ft_product p ON p.id = ps.product_id
-        LEFT JOIN ft_business b ON b.id = p.businessmen_id
+        LEFT JOIN t_biz_product p ON p.id = ps.product_id
+        LEFT JOIN t_biz_business b ON b.id = p.businessmen_id
     </sql>
     <!-- 分页查询 -->
     <select id="findList" resultType="ProductSalesEntity">
         SELECT
         <include refid="productSalesColumns"/>
-        FROM ft_product_sales ps
+        FROM t_biz_product_sales ps
         <include refid="joinTables"/>
         WHERE ps.del_flag = '0'
         <if test="!isAdmin">
@@ -33,7 +33,7 @@
         limit #{page.begin},#{page.size}
     </select>
     <select id="listTotal" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM ft_product_sales ps
+        SELECT COUNT(1) FROM t_biz_product_sales ps
         <include refid="joinTables"/>
         WHERE ps.del_flag = '0'
         <if test="!isAdmin">
@@ -47,7 +47,7 @@
     <select id="findById" resultType="ProductSalesEntity">
         SELECT
         <include refid="productSalesColumns"/>
-        FROM ft_product_sales ps
+        FROM t_biz_product_sales ps
         <include refid="joinTables"/>
         WHERE ps.id = #{id} AND ps.del_flag = '0'
     </select>
@@ -55,13 +55,13 @@
     <select id="findByProId" resultType="ProductSalesEntity">
         SELECT
         <include refid="productSalesColumns"/>
-        FROM ft_product_sales ps
+        FROM t_biz_product_sales ps
         <include refid="joinTables"/>
         WHERE ps.product_id = #{productId} AND ps.del_flag = '0'
     </select>
 
     <insert id="insert">
-        INSERT INTO ft_product_sales (
+        INSERT INTO t_biz_product_sales (
         sales_method,
         pounds_num,
         product_id,
@@ -82,7 +82,7 @@
         )
     </insert>
     <update id="update">
-        UPDATE ft_product_sales SET
+        UPDATE t_biz_product_sales SET
         sales_method = #{salesMethod},
         pounds_num = #{poundsNum},
         is_free_post = #{isFreePost},
@@ -93,7 +93,7 @@
     </update>
 
     <delete id="delete">
-        UPDATE ft_product_sales SET
+        UPDATE t_biz_product_sales SET
         del_flag = '1' WHERE id=#{id}
     </delete>
 </mapper>

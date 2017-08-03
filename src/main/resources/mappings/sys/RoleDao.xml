@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcf.fruit.dao.mysqlDao.sys.RoleDao">
+<mapper namespace="com.fruit.dao.sys.RoleDao">
 	<sql id="roleColumns">
 		r.id,
-		r.role_name AS  roleName,
-		r.description,
-		r.authority_ids AS authorityIdsStr
+		r.name,
+		r.name_zh
 	</sql>
 	<select id="findAllList" resultType="Role">
 		SELECT
 		<include refid="roleColumns"/>
-		FROM sys_role r
+		FROM t_sys_role r
 		WHERE r.del_flag = '0'
-		ORDER BY r.role_name
+		ORDER BY r.name
 	</select>
 
 	<select id="findOneByName" resultType="Role">
 		SELECT
 		<include refid="roleColumns"/>
-		FROM sys_role r WHERE r.role_name=#{roleName}
+		FROM t_sys_role r WHERE r.name=#{name}
 	</select>
 	<select id="findUserRoleId" resultType="Map">
-		SELECT role_id from sys_user_role WHERE user_id = #{userId}
+		SELECT role_id from t_sys_user_role WHERE user_id = #{userId}
 	</select>
 	<select id="findOne" resultType="Role">
 		SELECT
 		<include refid="roleColumns"/>
-		 FROM sys_role r WHERE r.id=#{id} AND r.del_flag = '0'
+		 FROM t_sys_role r WHERE r.id=#{id} AND r.del_flag = '0'
 	</select>
 
 	<select id="findListByUser" resultType="Role">
 		SELECT <!-- DISTINCT -->
 		<include refid="roleColumns"/>
-		FROM sys_role r
-		LEFT JOIN sys_user_role ur ON ur.role_id = r.id
-		LEFT JOIN sys_user u ON u.id = ur.user_id
+		FROM t_sys_role r
+		LEFT JOIN t_sys_user_role ur ON ur.role_id = r.id
+		LEFT JOIN t_sys_user u ON u.id = ur.user_id
 		WHERE r.del_flag = '0'
 		<if test="user != null and user.id != null and user.id != 0">
 			AND u.id = #{user.id}
@@ -42,38 +41,36 @@
 		<if test="user != null and user.username != null and user.username != ''">
 			AND u.username = #{user.username}
 		</if>
-		ORDER BY r.role_name
+		ORDER BY r.name
 	</select>
 
 	<insert id="insert">
-		INSERT INTO sys_role
-		(role_name,description) VALUES (#{roleName},#{description})
+		INSERT INTO t_sys_role (`name`,name_zh) VALUES (#{name},#{nameZh})
 	</insert>
 
 	<update id="update">
-		UPDATE sys_role SET role_name=#{roleName},description=#{description} WHERE id=#{id}
+		UPDATE t_sys_role SET `name`=#{name},name_zh=#{nameZh} WHERE id=#{id}
 	</update>
 
 	<update id="delete">
-		UPDATE sys_role SET del_flag='1' WHERE id=#{id}
+		UPDATE t_sys_role SET del_flag='1' WHERE id=#{id}
 	</update>
 
 	<insert id="insertRoleAndUser">
-		INSERT INTO sys_user_role
-		(user_id,role_id) VALUES (#{userId},#{roleId})
+		INSERT INTO t_sys_user_role	(user_id,role_id) VALUES (#{userId},#{roleId})
 	</insert>
 
 	<delete id="deleteUserAndRole">
-		DELETE FROM sys_user_role WHERE user_id = #{userId}
+		DELETE FROM t_sys_user_role WHERE user_id = #{userId}
 	</delete>
 
 	<delete id="delRoleAndMenu">
-		DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+		DELETE FROM t_sys_role_menu WHERE role_id = #{roleId}
 	</delete>
 	<delete id="delOneRoleAndMenu">
-		DELETE FROM sys_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+		DELETE FROM t_sys_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
 	</delete>
 	<insert id="addRoleAndMenu">
-		INSERT INTO sys_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
+		INSERT INTO t_sys_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
 	</insert>
 </mapper>

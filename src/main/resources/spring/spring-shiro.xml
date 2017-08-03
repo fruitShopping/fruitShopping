@@ -22,7 +22,7 @@
         <property name="cacheManager" ref="ehcacheManager"/>
     </bean>
     <!--&lt;!&ndash; 缓存管理器 &ndash;&gt;-->
-    <bean id="cacheManager" class="com.zcf.fruit.ehcache.SpringCacheManagerWrapper">
+    <bean id="cacheManager" class="com.fruit.ehcache.SpringCacheManagerWrapper">
         <property name="cacheManager" ref="springCacheManager"/>
     </bean>
 
@@ -123,7 +123,7 @@
 
     <!-- Realm实现 -->
     <!-- 声明一个自定义的 Realm -->
-    <bean id="userRealm" class="com.zcf.fruit.shiroRealm.MyShiroRealm">
+    <bean id="userRealm" class="com.fruit.shiro.ShiroRealm">
         <!-- 将上面声明的密码匹配器注入到自定义 Realm 的属性中去 -->
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
 
@@ -144,10 +144,10 @@
     </bean>
 
     <!-- 自定义一个权限匹配器 -->
-    <bean id="permissionResolver" class="com.zcf.fruit.shiroRealm.UrlPermissionResolver"/>
+    <bean id="permissionResolver" class="com.fruit.shiro.UrlPermissionResolver"/>
 
     <!-- 声明一个自定义的过滤器 -->
-    <bean id="resourceCheckFilter" class="com.zcf.fruit.shiroRealm.ResourceCheckFilter">
+    <bean id="resourceCheckFilter" class="com.fruit.shiro.ResourceCheckFilter">
         <!-- 为上面声明的自定义过滤器注入属性值 -->
         <property name="errorUrl" value="/unAuthorization"/>
     </bean>
