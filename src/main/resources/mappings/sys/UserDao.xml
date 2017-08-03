@@ -57,7 +57,25 @@
 		<if test="mobile != '' and mobile != null">
 			AND u.telephone = #{mobile}
 		</if>
-		GROUP BY u.username
+		GROUP BY
+		u.id,
+		u.username,
+		u.password,
+		u.real_name,
+		u.photo,
+		u.add_time,
+		u.telephone,
+		u.identity_card_num,
+		u.login_ip,
+		u.login_date,
+		u.remarks,
+		u.salt,
+		u.locked,
+		u.create_by,
+		u.create_date,
+		u.update_by,
+		u.update_date,
+		u.del_flag
 		ORDER BY u.id DESC limit #{page.begin},#{page.size}
 	</select>
 

@@ -66,7 +66,7 @@ public class ResourceCheckFilter extends AccessControlFilter {
 
         HttpServletRequest request =(HttpServletRequest) servletRequest;
         HttpServletResponse response =(HttpServletResponse) servletResponse;
-        response.sendRedirect(request.getContextPath() + this.errorUrl);
+        response.sendRedirect(request.getContextPath() + this.errorUrl);//跳转到错误界面
 
         // 返回 false 表示已经处理，例如页面跳转啥的，表示不在走以下的拦截器了（如果还有配置的话）
         return false;

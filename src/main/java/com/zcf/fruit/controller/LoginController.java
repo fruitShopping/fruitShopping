@@ -57,54 +57,59 @@ public class LoginController {
      * 管理登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
+    public String loginPage() {
+        return "sys/login";
+    }
+    /**
+     * 管理登录
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return "sys/login";
     }
     /**
      * 登录失败，真正登录的POST请求由Filter完成
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String showLoginForm(HttpServletRequest request, Model model) {
-        String usernames = UserUtils.getPrincipal();
-        logger.debug("UserUtils.getPrincipal => " + usernames);
+    public String doFormLogin(HttpServletRequest request, Model model) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         logger.debug("username => " + username);
         logger.debug("password => " + password);
         UsernamePasswordToken token = new UsernamePasswordToken(username,password);
         Subject subject = SecurityUtils.getSubject();
-
+        String error = null;
+        boolean b=true;
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
+            b=false;
             e.printStackTrace();
-            logger.error(e.getMessage());
+            error = "用户名/密码错误";
+            logger.error(error);
         } catch (IncorrectCredentialsException e){
+            b=false;
             e.printStackTrace();
-            logger.error("密码不匹配(生产环境中应该写:用户名和密码的组合不正确)");
+            error = "用户名/密码错误";
+            logger.error(error);
         } catch (LockedAccountException e){
+            b=false;
+            e.printStackTrace();
+            error = "用户已锁定，禁止登陆";
+            logger.error(error);
+        } catch (Exception e){
+            b=false;
             e.printStackTrace();
             logger.error(e.getMessage());
         }
         // 如果已经登录，则跳转到管理首页
-        if(username != null && username != ""){
-            return "redirect:/back/index";
-        }
+        if(b){return "redirect:/back/index";}
 
         username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
         boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
-        String exceptionClassName = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-        String error = null;
-//        System.out.println(exceptionClassName);
-        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
-            error = "用户名/密码错误";
-        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-            error = "用户名/密码错误";
-        } else if(LockedAccountException.class.getName().equals(exceptionClassName)){
-            error = "用户已锁定，禁止登陆";
-        } else if(exceptionClassName != null) {
-            error = "其他错误：" + exceptionClassName;
-        }
+        logger.error(username+">>>>>>>>>>"+rememberMe);
         model.addAttribute(FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
         model.addAttribute("error", error);

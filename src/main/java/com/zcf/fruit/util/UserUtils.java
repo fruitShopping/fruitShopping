@@ -225,12 +225,12 @@ public class UserUtils {
 
 	public static void putCache(String key, Object value) {
 //		getCacheMap().put(key, value);
-		//getSession().setAttribute(key, value);
+		getSession().setAttribute(key, value);
 	}
 
 	public static void removeCache(String key) {
 //		getCacheMap().remove(key);
-		//getSession().removeAttribute(key);
+		getSession().removeAttribute(key);
 	}
 	
 }
