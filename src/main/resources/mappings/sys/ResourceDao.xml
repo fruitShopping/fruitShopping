@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fruit.dao.sys.ResourceDao">
+
+    <select id="listResource" resultType="Resource">
+        SELECT
+            `id`,
+            `name`,
+            `permission`,
+            `url`
+        FROM
+          `t_sys_resource`
+    </select>
+
+    <insert id="add" parameterType="Resource">
+        insert into t_sys_resource(name,permission,url)
+        VALUES (#{name},#{permission},#{url})
+    </insert>
+
+    <update id="update" parameterType="Resource">
+        update t_sys_resource
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="permission != null">
+                permission = #{permission},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_sys_resource
+        WHERE id = #{id}
+    </delete>
+
+    <select id="load" parameterType="int" resultType="Resource">
+        SELECT
+            `id`,
+            `name`,
+            `permission`,
+            `url`
+        FROM
+          `t_sys_resource`
+        WHERE id = #{id}
+    </select>
+
+</mapper>
