@@ -41,7 +41,7 @@ public class LoginController {
     public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "redirect:sys/login";
+        return "redirect:/login";
     }
     /**
      * 登录失败，真正登录的POST请求由Filter完成

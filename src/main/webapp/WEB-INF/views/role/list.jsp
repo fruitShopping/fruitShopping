@@ -66,8 +66,8 @@
                             <td>
                                 <input type="checkbox" name="checkbox" value="${role.id}"/>
                             </td>
-                            <td>${role.description}</td>
-                            <td>${role.roleName}</td>
+                            <td>${role.nameZh}</td>
+                            <td>${role.name}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

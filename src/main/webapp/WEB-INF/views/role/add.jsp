@@ -30,21 +30,21 @@
 <body>
 <h3 class="back-rel"><a class="back-btn-a" href="${ctx}/back/role/list"><i class="iconfont icon-fanhui"></i>&nbsp;返回</a></h3>
 <div class="form-table">
-    <form class="registerform" id="addRoleform" action="${ctx}/back/role/save" method="post">
+    <form class="registerForm" id="addRoleForm" action="${ctx}/back/role/save" method="post">
         <div class="basicInfo ui-box">
             <h3>基本信息</h3>
             <div class="filedList">
                 <label>角色名称</label>
-                <input type="text" class="form-control inputXt" placeholder="角色名称" name="description"/>
+                <input type="text" class="form-control inputXt" placeholder="角色名称" name="nameZh"/>
             </div>
             <div class="filedList">
                 <label>角色编码</label>
-                <input type="text" class="form-control inputXt" placeholder="角色编码" name="roleName"/>
+                <input type="text" class="form-control inputXt" placeholder="角色编码" name="name"/>
             </div>
         </div>
         <!--提交取消-->
         <div class="bus-ground-btn">
-            <a id="addRoleform_btn" class="btn btn-enter">&nbsp;确定</a>
+            <a id="addRoleForm_btn" class="btn btn-enter">&nbsp;确定</a>
             <button id="reset_btn" type="reset" class="btn btn-white" onclick="JavaScript :history.back(-1)">&nbsp;取消</button>
         </div>
         <!--提交取消-->
@@ -61,8 +61,8 @@
 <script type="text/javascript">
     $(function(){
         $scroll.initScroll();
-        $("#addRoleform_btn").click(function(){
-            $("#addRoleform").submit();
+        $("#addRoleForm_btn").click(function(){
+            $("#addRoleForm").submit();
         });
     });
 

@@ -36,11 +36,11 @@
                 <h3>基本信息</h3>
                 <div class="filedList">
                     <label>角色名称</label>
-                    <input type="text" class="form-control inputXt" placeholder="角色名称" name="description" value="${role.description}"/>
+                    <input type="text" class="form-control inputXt" placeholder="角色名称" name="nameZh" value="${role.nameZh}"/>
                 </div>
                 <div class="filedList">
                     <label>角色编码</label>
-                    <input type="text" class="form-control inputXt" placeholder="角色编码" name="roleName" value="${role.roleName}"/>
+                    <input type="text" class="form-control inputXt" placeholder="角色编码" name="name" value="${role.name}"/>
                 </div>
             </div>
             <!--提交取消-->

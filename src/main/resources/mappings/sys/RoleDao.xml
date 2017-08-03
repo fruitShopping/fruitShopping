@@ -4,7 +4,8 @@
 	<sql id="roleColumns">
 		r.id,
 		r.name,
-		r.name_zh
+		r.name_zh AS nameZh,
+		r.del_flag AS delFlag
 	</sql>
 	<select id="findAllList" resultType="Role">
 		SELECT
@@ -65,12 +66,12 @@
 	</delete>
 
 	<delete id="delRoleAndMenu">
-		DELETE FROM t_sys_role_menu WHERE role_id = #{roleId}
+		DELETE FROM t_dat_role_menu WHERE role_id = #{roleId}
 	</delete>
 	<delete id="delOneRoleAndMenu">
-		DELETE FROM t_sys_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+		DELETE FROM t_dat_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
 	</delete>
 	<insert id="addRoleAndMenu">
-		INSERT INTO t_sys_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
+		INSERT INTO t_dat_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
 	</insert>
 </mapper>

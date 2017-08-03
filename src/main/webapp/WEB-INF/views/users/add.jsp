@@ -58,7 +58,7 @@
                 <label>所属角色</label>
                 <c:forEach items="${roleList}" var="role">
                     <input type="checkbox" class="inputXt" name="roleIdsStr" value="${role.id}" datatype="*" nullmsg="请选择所属角色！"/>
-                    <span>${role.description}</span>
+                    <span>${role.nameZh}</span>
                 </c:forEach>
             </div>
             <div class="filedList">
