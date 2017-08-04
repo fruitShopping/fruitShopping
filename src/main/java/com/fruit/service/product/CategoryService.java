@@ -53,11 +53,11 @@ public class CategoryService {
         int id = category.getId();
         if(id == 0){
             // 记录登录日志
-            LogUtils.saveLog(Servlets.getRequest(), "字典信息新增");
+            LogUtils.saveLog(Servlets.getRequest(), "产品类别信息新增");
             categoryDao.insert(category);
         }else{
             // 记录登录日志
-            LogUtils.saveLog(Servlets.getRequest(), "字典信息更新");
+            LogUtils.saveLog(Servlets.getRequest(), "产品类别信息更新");
             categoryDao.update(category);
         }
     }

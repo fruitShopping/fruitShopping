@@ -12,7 +12,7 @@ public class CategoryEntity {
     private String categoryName;//品种名称
     private int isShelves;//是否上架(0是 1否)
     private Date createTime;//添加时间
-    private String breedName;//产品类别
+    private CategoryEntity category;//所属种类
 
     public int getId() {
         return id;
@@ -54,11 +54,11 @@ public class CategoryEntity {
         this.createTime = createTime;
     }
 
-    public String getBreedName() {
-        return breedName;
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setBreedName(String breedName) {
-        this.breedName = breedName;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 }

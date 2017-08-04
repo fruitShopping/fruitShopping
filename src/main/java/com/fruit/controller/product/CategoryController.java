@@ -102,11 +102,11 @@ public class CategoryController {
             flag = true;
             logger.info("CategoryController delete category information success！");
             // 记录登录日志
-            LogUtils.saveLog(Servlets.getRequest(), "产品信息删除成功");
+            LogUtils.saveLog(Servlets.getRequest(), "产品类别信息删除成功");
         }catch (Exception e){
             e.printStackTrace();
             // 记录登录日志
-            LogUtils.saveLog(Servlets.getRequest(), "产品信息删除失败");
+            LogUtils.saveLog(Servlets.getRequest(), "产品类别信息删除失败");
             logger.error("CategoryController delete category information Exception:"+e.getMessage());
         }
         return flag;
