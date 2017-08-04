@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 登录验证
- * Created by zjj-ideapad on 2015/3/26.
+ * Created by zyming on 2017/08/04
  */
 public class ShiroRealm extends AuthorizingRealm {
 
