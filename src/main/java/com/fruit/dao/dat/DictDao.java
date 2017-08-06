@@ -1,8 +1,8 @@
-package com.fruit.dao.sys;
+package com.fruit.dao.dat;
 
 import com.fruit.common.annotation.MyBatisDao;
 import com.fruit.common.base.BaseDao;
-import com.fruit.entity.sys.DictEntity;
+import com.fruit.entity.dat.DictEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

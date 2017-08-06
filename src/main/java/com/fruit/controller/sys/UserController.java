@@ -5,7 +5,6 @@ import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
 import com.fruit.entity.sys.Role;
 import com.fruit.entity.sys.User;
-import com.fruit.service.sys.DictService;
 import com.fruit.service.sys.RoleService;
 import com.fruit.service.sys.UserService;
 import com.fruit.util.LogUtils;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -69,7 +67,7 @@ public class UserController {
     @RequestMapping("/add")
     public String add(Model model){
         //查询角色数据
-        List<Role> roleList = roleService.findAllList();
+        List<Role> roleList = roleService.queryAll();
         model.addAttribute("roleList",roleList);
         return "users/add";
     }
@@ -97,7 +95,7 @@ public class UserController {
             // 记录登录日志
             LogUtils.saveLog(Servlets.getRequest(), "用户信息更新");
             logger.info("UserController update : update userInfo");
-            userService.doEditUser(user);
+            userService.updateUser(user);
         }
         return "redirect:/back/users/userList";
     }
@@ -110,7 +108,7 @@ public class UserController {
     @RequestMapping("/userDel")
     public @ResponseBody Boolean userDel(@RequestParam("ids") String ids){
         boolean flag = false;
-        flag = userService.userDel(ids);
+        flag = userService.deleteByIds(ids);
         return flag;
     }
 
@@ -122,7 +120,7 @@ public class UserController {
     public @ResponseBody Map<String,Object> checkUsername(HttpServletRequest request, HttpServletResponse response){
         Map<String,Object> map=new HashMap<String,Object>();
         String username = request.getParameter("param");
-        User user = userService.findUserByUsername(username);
+        User user = userService.findUserByName(username);
         if(user == null){
             map.put("status", "y");
             map.put("info", "用户名可以使用！");
@@ -142,14 +140,14 @@ public class UserController {
         Map<String,Object> map=new HashMap<String,Object>();
         String username = request.getParameter("param");
         User loginUser = UserUtils.getUser();
-        User user = userService.findUserBus(username,loginUser.getUsername());
-        if(user == null){
+        //User user = userService.findUserBus(username,loginUser.getUsername());
+        /*if(user == null){
             map.put("status", "y");
             map.put("info", "用户名可以使用！");
         }else{
             map.put("status", "n");
             map.put("info","用户名已经存在！" );
-        }
+        }*/
         return map;
     }
 
@@ -160,11 +158,10 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/editUser/{userId}",method = RequestMethod.GET)
-    public String editUser(Model model,
-                           @PathVariable("userId") Long userId){
-        User user = userService.editUser(userId);
+    public String editUser(Model model,@PathVariable("userId") Integer userId){
+        User user = userService.findUserById(userId);
         //查询角色数据
-        List<Role> roleList = roleService.findAllList();
+        List<Role> roleList = roleService.queryAll();
         model.addAttribute("roleList",roleList);
         model.addAttribute("user",user);
         return "users/edit";

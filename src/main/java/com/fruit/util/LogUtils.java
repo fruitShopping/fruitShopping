@@ -14,7 +14,7 @@ import com.fruit.common.utils.SpringContextHolder;
 import com.fruit.common.utils.StringUtils;
 
 import com.fruit.entity.sys.Log;
-import com.fruit.entity.sys.Menu;
+import com.fruit.entity.dat.Menu;
 import com.fruit.entity.sys.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.method.HandlerMethod;

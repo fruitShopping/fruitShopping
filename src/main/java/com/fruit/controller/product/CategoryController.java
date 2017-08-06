@@ -4,9 +4,9 @@ import com.fruit.common.utils.Servlets;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
 import com.fruit.entity.product.CategoryEntity;
-import com.fruit.entity.sys.DictEntity;
+import com.fruit.entity.dat.DictEntity;
 import com.fruit.service.product.CategoryService;
-import com.fruit.service.sys.DictService;
+import com.fruit.service.dat.DictService;
 import com.fruit.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**

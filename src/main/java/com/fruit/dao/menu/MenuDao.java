@@ -3,7 +3,7 @@ package com.fruit.dao.menu;
 import com.fruit.common.annotation.MyBatisDao;
 import com.fruit.common.base.BaseDao;
 import com.fruit.entity.Page;
-import com.fruit.entity.sys.Menu;
+import com.fruit.entity.dat.Menu;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

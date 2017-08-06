@@ -1,19 +1,17 @@
-package com.fruit.service.sys;
+package com.fruit.service.dat;
 
 import com.fruit.common.utils.Servlets;
 
-import com.fruit.dao.sys.DictDao;
+import com.fruit.dao.dat.DictDao;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
 
-import com.fruit.entity.sys.DictEntity;
-import com.fruit.entity.sys.User;
+import com.fruit.entity.dat.DictEntity;
 import com.fruit.util.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 
 

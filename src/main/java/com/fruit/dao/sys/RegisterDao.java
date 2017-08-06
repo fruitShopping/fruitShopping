@@ -5,11 +5,13 @@ import com.fruit.entity.sys.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by zjj-ideapad on 2015/3/29.
  */
 @MyBatisDao
+@Repository
 public interface RegisterDao {
 
     @Insert("insert into sys_user(username, password,real_name,identity_card_num,telephone,addTime, salt, locked) " +

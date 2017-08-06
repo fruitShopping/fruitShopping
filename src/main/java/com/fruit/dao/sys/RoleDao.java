@@ -11,31 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 角色JDBC层
- * Created by zjj-ideapad on 2015/3/26.
+ * 角色DAO层
+ * Created by zyming 20170806
  */
 @MyBatisDao
 @Repository
 public interface RoleDao extends BaseDao<Role> {
+    public List<Role> queryAll();
+    public List<Map<String,String>> findRoleNameByUserId(@Param("userId") Integer userId);
+    public List<Role> findRolesByUserId(@Param("userId") Integer userId);
+    public void deleteByIds(@Param("ids") String ids);
 
-    public Role findOneByName(@Param("roleName") String roleName);
-
-    public List<Map<String,Integer>> findUserRoleId(@Param("userId") Long userId);
-
-    public Role findOne(@Param("id") int roleId);
-
-    public List<Role> findListByUser(@Param("user") User user);
-
-    public void insertRoleAndUser(@Param("userId") long userId,
-                                  @Param("roleId") int roleId);
-
-    public void deleteUserAndRole(@Param("userId") long userId);
-
-    public void delRoleAndMenu(@Param("roleId") int roleId);
-
-    public void addRoleAndMenu(@Param("menuId") int menuId,
-                               @Param("roleId") int roleId);
-
-    public void delOneRoleAndMenu(@Param("menuId") int menuId,
-                                  @Param("roleId") int roleId);
 }

@@ -48,16 +48,4 @@ public class PasswordHelper {
         user.setPassword(newPassword);
     }
 
-    public static void main(String[] args){
-//        String salt = randomNumberGenerator.nextBytes().toHex();
-//        System.out.println(salt);
-//        String newPassword = new SimpleHash(
-//                algorithmName,
-//                "wjf_huling_20161201",
-//                ByteSource.Util.bytes("admin"+salt),
-//                hashIterations).toHex();
-//
-//        System.out.println(newPassword);
-    }
-
 }

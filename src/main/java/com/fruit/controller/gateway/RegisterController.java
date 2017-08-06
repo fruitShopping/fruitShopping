@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 
 /**
- * Created by zjj-ideapad on 2015/3/29.
+ * zyming 2017/8/6.
  */
 @Controller
 @RequestMapping("/register")
@@ -52,8 +52,7 @@ public class RegisterController {
     }
 
     @RequestMapping("/checkUsername")
-    public @ResponseBody Boolean checkUsername(Model model,
-                                               @RequestParam("username") String username){
+    public @ResponseBody Boolean checkUsername(Model model,@RequestParam("username") String username){
         boolean flag = false;
         flag = registerService.checkUsername(username);
         return flag;

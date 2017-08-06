@@ -1,15 +1,11 @@
 package com.fruit.controller.sys;
 
-import com.google.common.collect.Lists;
 import com.fruit.common.utils.Servlets;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
-import com.fruit.entity.sys.DictEntity;
-import com.fruit.entity.sys.Menu;
-import com.fruit.entity.sys.User;
-import com.fruit.service.sys.DictService;
+import com.fruit.entity.dat.DictEntity;
+import com.fruit.service.dat.DictService;
 import com.fruit.util.LogUtils;
-import com.fruit.util.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
-import java.util.List;
 
 /**
  * 字典

@@ -2,7 +2,6 @@ package com.fruit.controller.sys;
 
 import com.fruit.common.utils.Servlets;
 import com.fruit.entity.sys.Role;
-import com.fruit.service.sys.DictService;
 import com.fruit.service.sys.RoleService;
 import com.fruit.util.LogUtils;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class RoleController {
     @RequestMapping("list")
     public String roleList(Model model){
         logger.info("RoleController roleList check role information");
-        List<Role> roleList = roleService.findAllList();
+        List<Role> roleList = roleService.queryAll();
         model.addAttribute("roleList",roleList);
         return "role/list";
     }
@@ -70,7 +68,7 @@ public class RoleController {
 
     @RequestMapping("/edit")
     public String edit(Model model,@RequestParam("id") int id){
-        Role role = roleService.findOne(id);
+        Role role = roleService.findById(id);
         model.addAttribute("role",role);
         return "role/edit";
     }
@@ -81,7 +79,7 @@ public class RoleController {
         logger.info("RoleController delete role information！");
         boolean flag = false;
         try {
-            roleService.delete(ids);
+            roleService.deleteByIds(ids);
             flag = true;
             logger.info("RoleController delete role information success！");
             // 记录登录日志
@@ -104,7 +102,7 @@ public class RoleController {
         LogUtils.saveLog(Servlets.getRequest(), "角色赋权");
         boolean flag = false;
         try{
-            roleService.roleAndMenu(roleId,selectIds,changeIds);
+            //roleService.roleAndMenu(roleId,selectIds,changeIds);
             flag = true;
             logger.info("RoleController roleMenu role authority success");
             // 记录登录日志

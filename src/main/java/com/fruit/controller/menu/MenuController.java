@@ -5,7 +5,7 @@ import com.fruit.common.utils.CacheUtils;
 import com.fruit.common.utils.Servlets;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
-import com.fruit.entity.sys.Menu;
+import com.fruit.entity.dat.Menu;
 import com.fruit.entity.sys.User;
 import com.fruit.service.menu.MenuService;
 import com.fruit.util.LogUtils;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 

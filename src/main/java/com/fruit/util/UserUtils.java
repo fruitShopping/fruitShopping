@@ -8,7 +8,7 @@ import com.fruit.common.utils.SpringContextHolder;
 import com.fruit.dao.menu.MenuDao;
 import com.fruit.dao.sys.RoleDao;
 import com.fruit.dao.sys.UserDao;
-import com.fruit.entity.sys.Menu;
+import com.fruit.entity.dat.Menu;
 import com.fruit.entity.sys.Role;
 import com.fruit.entity.sys.User;
 import org.apache.shiro.SecurityUtils;
@@ -49,11 +49,11 @@ public class UserUtils {
 	public static User get(String username){
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + username);
 		if (user ==  null){
-			user = userDao.findByUsername(username);
+			user = userDao.findUserByName(username);
 			if (user == null){
 				return null;
 			}
-			List<Role> roleLists = roleDao.findListByUser(user);
+			List<Role> roleLists = roleDao.findRolesByUserId(user.getId());
 			user.setRoleList(roleLists);
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getUsername(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getUsername(), user);
@@ -69,11 +69,11 @@ public class UserUtils {
 	public static User getByLoginName(String loginName){
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginName);
 		if (user == null){
-			user = userDao.findByUsername(loginName);
+			user = userDao.findUserByName(loginName);
 			if (user == null){
 				return null;
 			}
-			user.setRoleList(roleDao.findListByUser(user));
+			user.setRoleList(roleDao.findRolesByUserId(user.getId()));
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getUsername(), user);
 		}
@@ -130,7 +130,7 @@ public class UserUtils {
 			if (user.isAdmin()){
 				roleList = roleDao.findAllList();
 			}else{
-				roleList = roleDao.findListByUser(user);
+				roleList = roleDao.findRolesByUserId(user.getId());
 			}
 			putCache(CACHE_ROLE_LIST, roleList);
 		}

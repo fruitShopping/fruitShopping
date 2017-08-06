@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * zyming 2017/8/6.
  */
 @Controller
 public class LoginController {

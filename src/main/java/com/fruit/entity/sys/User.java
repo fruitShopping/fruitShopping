@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 874713307359614625L;
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private String telephone;
@@ -49,11 +49,11 @@ public class User extends BaseEntity implements Serializable {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

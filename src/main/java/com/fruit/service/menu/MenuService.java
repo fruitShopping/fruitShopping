@@ -4,14 +4,13 @@ import com.fruit.common.utils.CacheUtils;
 import com.fruit.dao.menu.MenuDao;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
-import com.fruit.entity.sys.Menu;
+import com.fruit.entity.dat.Menu;
 import com.fruit.util.LogUtils;
 import com.fruit.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 

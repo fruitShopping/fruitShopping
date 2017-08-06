@@ -1,4 +1,4 @@
-package com.fruit.entity.sys;
+package com.fruit.entity.dat;
 
 import com.fruit.common.base.BaseEntity;
 import org.codehaus.jackson.annotate.JsonIgnore;

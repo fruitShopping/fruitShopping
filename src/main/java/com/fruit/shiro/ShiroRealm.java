@@ -6,14 +6,16 @@ import java.util.Set;
 import com.fruit.entity.sys.User;
 import com.fruit.service.sys.SystemService;
 
-import com.fruit.service.sys.PermissionsService;
+import com.fruit.service.sys.PermsService;
 import com.fruit.util.LogUtils;
 import com.fruit.util.UserUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ public class ShiroRealm extends AuthorizingRealm {
     private static final Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
     @Autowired
-    private PermissionsService permissionsService;
+    private PermsService permsService;
     @Autowired
     private SystemService systemService;
 
@@ -39,12 +41,14 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         logger.info("--- MyShiroRealm doGetAuthenticationInfo 登录---");
         String username = (String) token.getPrincipal();
+        Object credentials=token.getCredentials();
+        logger.info("credentials:"+credentials.toString());
         if (logger.isDebugEnabled()) {
             logger.debug("login submit, active session size: {}, username: {}", username);
         }
 
 
-        User user = permissionsService.findByUsername(username);
+        User user = permsService.findUserByName(username);
         if (user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
@@ -107,13 +111,13 @@ public class ShiroRealm extends AuthorizingRealm {
             if (authorizationInfo == null) {
                 logger.debug("authorizationInfo为空..");
                 authorizationInfo = new SimpleAuthorizationInfo();
-                Set<String> roles = permissionsService.findRoles(username);
-                Set<String> permissions = permissionsService.findPermissions(username);
-                permissions.add("/back/**");
-                logger.debug("roles=" + roles.toString());
+                Set<String> roleNames = permsService.findRoleNames(username);
+                Set<String> permissions = permsService.findPermissions(username);
+                //permissions.add("/back/**");
+                //permissions.add("account:create");
+                logger.debug("roles=" + roleNames.toString());
                 logger.debug("permissions=" + permissions.toString());
-
-                authorizationInfo.setRoles(roles);
+                authorizationInfo.setRoles(roleNames);
                 authorizationInfo.setStringPermissions(permissions);
 
                 UserUtils.putCache(UserUtils.CACHE_AUTH_INFO, authorizationInfo);
@@ -122,7 +126,7 @@ public class ShiroRealm extends AuthorizingRealm {
             e.printStackTrace();
         }
 
-        User user = permissionsService.findByUsername(username);
+        User user = permsService.findUserByName(username);
         // 更新登录IP和时间
         systemService.updateUserLoginInfo(user);
         // 记录登录日志

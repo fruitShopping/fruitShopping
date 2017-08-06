@@ -28,8 +28,10 @@ public class UrlPermissionResolver implements PermissionResolver {
     public Permission resolvePermission(String url) {
         logger.debug("url => " +url);
 
-        if(url.startsWith("/")){
-            return new UrlPermission(url);//资源权限
+        if(url.startsWith("/")){//就是配置两种不同风格的权限
+            return new UrlPermission(url);//url权限
+            //url=url.substring(1);
+            //url=url.replace("/",":");
         }
         return new WildcardPermission(url);//细粒度权限
     }

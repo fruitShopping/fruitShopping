@@ -6,7 +6,6 @@ package com.fruit.service.sys;
 import com.fruit.common.config.Global;
 import com.fruit.common.utils.Servlets;
 import com.fruit.common.utils.StringUtils;
-import com.fruit.dao.sys.RoleDao;
 import com.fruit.dao.sys.UserDao;
 import com.fruit.entity.sys.User;
 import com.fruit.util.UserUtils;
@@ -28,15 +27,7 @@ public class SystemService implements InitializingBean {
 
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private RoleDao roleDao;
-//	@Autowired
-//	private MenuDao menuDao;
 
-
-
-	//-- User Service --//
-	
 	/**
 	 * 获取用户
 	 * @param username
@@ -75,7 +66,7 @@ public class SystemService implements InitializingBean {
 	public static boolean printKeyLoadMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n======================================================================\r\n");
-		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By http://www.dianxianguo.com\r\n");
+		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName"));
 		sb.append("\r\n======================================================================\r\n");
 		System.out.println(sb.toString());
 		return true;

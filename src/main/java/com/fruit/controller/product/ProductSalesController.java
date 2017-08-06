@@ -5,7 +5,6 @@ import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
 import com.fruit.entity.product.ProductEntity;
 import com.fruit.entity.product.ProductSalesEntity;
-import com.fruit.entity.sys.DictEntity;
 import com.fruit.entity.sys.User;
 import com.fruit.service.product.ProductSalesService;
 import com.fruit.service.product.ProductService;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;

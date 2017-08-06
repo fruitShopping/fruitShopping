@@ -1,7 +1,7 @@
 package com.fruit.service.sys;
 
 
-import com.fruit.dao.sys.RoleDao;
+import com.fruit.dao.sys.RelationShipDao;
 import com.fruit.dao.sys.UserDao;
 import com.fruit.entity.IfPage;
 import com.fruit.entity.Page;
@@ -26,7 +26,7 @@ public class UserService {
     private UserDao userDao;
 
     @Autowired
-    private RoleDao roleDao;
+    private RelationShipDao relationShipDao;
 
     /**
      * 用户信息分页查询
@@ -42,11 +42,11 @@ public class UserService {
             page.setBegin(0);
         }
 
-        List<User> usersList = userDao.getUsersList(page,username,mobile);
+        List<User> usersList = userDao.queryList(page,username,mobile);
         userListIfPage.setDates(usersList);
 
         //数据总数
-        int total = userDao.getUsersListTotal(username,mobile);
+        int total = userDao.queryListTotal(username,mobile);
         int totalPage = total/page.getSize();
         totalPage += total%page.getSize() > 0 ? 1:0;
         userListIfPage.setPageTotal(totalPage);
@@ -54,7 +54,7 @@ public class UserService {
 
     }
 
-    public Boolean doLocked(Long userId,int num){
+    public Boolean doLocked(Integer userId,int num){
         boolean flag = false;
         try{
             userDao.doLocked(userId,num);
@@ -65,27 +65,16 @@ public class UserService {
         return flag;
     }
 
-    public Boolean userDel(String userIds){
-        boolean flag = false;
-        try{
-            userIds = userIds.substring(0,userIds.length()-1);
-            String[] userIdArr = userIds.split(",");
-            for(String userId : userIdArr){
-                userDao.userDel(Long.parseLong(userId));
-                //删除用户与角色关系
-                roleDao.deleteUserAndRole(Long.parseLong(userId));
-            }
-
-            flag = true;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return flag;
+    public User findUserById(Integer userId){
+        return userDao.findUserById(userId);
     }
-
-    public User editUser(Long userId){
-        User user = userDao.findByUserId(userId);
-        return user;
+    /**
+     * 查询用户是否存在
+     * @param username 用户名
+     * @return 返回值
+     */
+    public User findUserByName(String username){
+        return userDao.findUserByName(username);
     }
 
     public void save(User user){
@@ -94,16 +83,16 @@ public class UserService {
         passwordHelper.encryptPassword(user);
         user.preInsert();
         userDao.insert(user);
-        User user2 = userDao.findByUsername(user.getUsername());
+        User user2 = userDao.findUserByName(user.getUsername());
         long userId = user2.getId();
         //添加角色关系
         String roleIds = user.getRoleIdsStr();
         String[] roleIdArr = roleIds.split(",");
         for(String  roleId : roleIdArr){
-            roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
+          //  roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
         }
     }
-    public Boolean doEditUser(User user){
+    public Boolean updateUser(User user){
         boolean flag = false;
         String password = user.getPassword();
         String oldPassword = user.getOldPassword();
@@ -119,12 +108,12 @@ public class UserService {
             //更新用户角色关系
             long userId = user.getId();
             //删除用户与角色关系
-            roleDao.deleteUserAndRole(userId);
+            //roleDao.deleteUserAndRole(userId);
             //添加用户与角色关系
             String roleIds = user.getRoleIdsStr();
             String[] roleIdArr = roleIds.split(",");
             for(String  roleId : roleIdArr){
-                roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
+                //roleDao.insertRoleAndUser(userId,Integer.parseInt(roleId));
             }
 
             flag = true;
@@ -133,27 +122,8 @@ public class UserService {
         }
         return flag;
     }
-
-    /**
-     * 查询用户是否存在
-     * @param username 用户名
-     * @return 返回值
-     */
-    public User findUserByUsername(String username){
-        return userDao.findByUsername(username);
+    public boolean deleteByIds(String ids){
+        userDao.deleteByIds(ids);
+        return true;
     }
-
-    /**
-     * 用户信息修改时查询用户名是否存在(不包含现在的用户)
-     * @param username 新用户名
-     * @param loginName 登录用户名
-     * @return 返回值
-     */
-    public User findUserBus(String username,String loginName){
-        return userDao.findUserBus(username,loginName);
-    }
-    public int findUserByUserName(String username,String password){
-        return userDao.findUserByUserName(username,password);
-    }
-
 }

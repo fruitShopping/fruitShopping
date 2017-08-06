@@ -1,4 +1,4 @@
-package com.fruit.entity.sys;
+package com.fruit.entity.dat;
 
 /**
  * Created by zcf on 2017/6/27.

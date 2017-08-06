@@ -1,5 +1,6 @@
 package com.fruit.shiro;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
@@ -46,6 +47,10 @@ public class ResourceCheckFilter extends AccessControlFilter {
             }else{
                 logger.debug("当前用户无权限访问：" + url);
             }
+            subject = SecurityUtils.getSubject();
+            boolean bz= subject.isPermitted("back:index");
+            logger.debug("subject.isPermitted(back:index)="+bz);
+
         }catch (Exception e){
             e.printStackTrace();
         }

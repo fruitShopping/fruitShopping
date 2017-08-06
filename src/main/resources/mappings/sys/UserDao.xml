@@ -26,26 +26,64 @@
 		LEFT JOIN t_sys_user_role ur ON ur.user_id = u.id
 		LEFT JOIN t_sys_role r ON r.id = ur.role_id
 	</sql>
-	<!-- 根据用户名查询用户 -->
-	<select id="findByUsername" resultType="User">
+	<!-- 根据用户ID查询用户 -->
+	<select id="findUserById" resultType="User">
 		SELECT
 		<include refid="userColumns"/>
-		FROM t_sys_user u WHERE u.username = #{username} AND u.del_flag = '0'
+		FROM t_sys_user u
+		WHERE u.id = #{userId} AND u.del_flag = '0'
+	</select>
+	<!-- 根据用户名查询用户 -->
+	<select id="findUserByName" resultType="User">
+		SELECT
+		<include refid="userColumns"/>
+		FROM t_sys_user u
+		WHERE u.username = #{username} AND u.del_flag = '0'
+	</select>
+	<!-- 根据用户名查询用户 -->
+	<select id="findUser" resultType="User">
+		SELECT
+		<include refid="userColumns"/>
+		FROM t_sys_user u
+		WHERE u.username = #{username} AND u.password= #{password}
+		AND u.del_flag = '0'
+	</select>
+	<!-- 根据用户名和密码查询用户 -->
+	<select id="findCountByUserName" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS total FROM t_sys_user WHERE username = #{username}
 	</select>
 
-	<select id="findUserBus" resultType="User">
-		SELECT * FROM t_sys_user u  WHERE u.username != #{username} AND u.username  = #{loginName}
+	<!--根据用户Id查询用户的权限列表-->
+	<select id="findPermsByUserId" resultType="Map">
+		SELECT DISTINCT r.permission,r.url FROM t_sys_user u
+		LEFT JOIN t_sys_user_role ur on u.id=ur.user_id
+		LEFT JOIN t_sys_role_resource rr on ur.role_id=rr.role_id
+		LEFT JOIN t_sys_resource r on rr.resource_id=r.id
+		WHERE u.id= #{userId}
 	</select>
-	<!-- 根据登录名查询用户角色 -->
-	<select id="findByRoleIds" resultType="Map">
+	<!-- 根据用户Id查询用户的角色 -->
+	<select id="findRolesByUserId" resultType="Map">
 		SELECT DISTINCT u.username,r.`name`,r.name_zh,r.id as role_id FROM t_sys_user u
 		LEFT JOIN t_sys_user_role ur on u.id=ur.user_id
 		LEFT JOIN t_sys_role  r on ur.role_id=r.id
 		WHERE 1=1 AND u.username = #{username} AND u.del_flag = '0'
 	</select>
 
+	<!-- 查询全部用户数目 -->
+	<select id="queryListTotal" resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM t_sys_user u
+		WHERE u.del_flag = '0'
+		<if test="username != '' and username != null">
+			AND u.username like CONCAT('%', #{username}, '%')
+		</if>
+		<if test="mobile != '' and mobile != null">
+			AND u.telephone = #{mobile}
+		</if>
+	</select>
 	<!-- 根据登录名查询用户列表 -->
-	<select id="getUsersList" resultType="User">
+	<select id="queryList" resultType="User">
 		SELECT
 		<include refid="userColumns"/>,
 		group_concat(r.name_zh) AS roleNames,group_concat(r.id) AS roleIdsStr
@@ -80,45 +118,26 @@
 		ORDER BY u.id DESC limit #{page.begin},#{page.size}
 	</select>
 
-	<!-- 查询全部用户数目 -->
-	<select id="getUsersListTotal" resultType="java.lang.Integer">
-		SELECT
-			COUNT(1)
-		FROM t_sys_user u
-		WHERE u.del_flag = '0'
-		<if test="username != '' and username != null">
-			AND u.username like CONCAT('%', #{username}, '%')
-		</if>
-		<if test="mobile != '' and mobile != null">
-			AND u.telephone = #{mobile}
-		</if>
-	</select>
-
 	<!-- 更新用户锁 -->
 	<select id="doLocked" >
 		UPDATE t_sys_user SET locked = #{num} WHERE id = #{userId}
 	</select>
-
-	<!-- 删除用户 -->
-	<select id="userDel" >
-		UPDATE t_sys_user set del_flag = '1' WHERE id = #{userId}
+	<!-- 物理删除用户 -->
+	<select id="doDelete" >
+		DELETE FROM t_sys_user WHERE id = #{userId}
 	</select>
 
-	<!-- 根据用户ID查询用户 -->
-	<select id="findByUserId" resultType="User">
-		SELECT
-		<include refid="userColumns"/>,
-		group_concat(r.name_zh) AS roleNames,group_concat(r.id) AS roleIdsStr
-		 FROM t_sys_user u
-		<include refid="roleJoins"/>
-		WHERE u.id = #{userId} AND u.del_flag = '0'
-	</select>
+	<!-- 更新用户密码 -->
+	<update id="updatePassWord">
+		UPDATE t_sys_user SET password = #{password},salt = #{salt}
+		WHERE id = #{userId}
+	</update>
 
-	<!-- 根据用户名和密码查询用户 -->
-	<select id="findUserByUserName" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS total FROM t_sys_user WHERE username = #{username} AND password = #{password}
-	</select>
-
+	<!-- 更新登录信息，如登录IP、登录时间 -->
+	<update id="updateLoginInfo">
+		UPDATE t_sys_user SET login_ip = #{loginIp},login_Date = #{loginDate}
+		WHERE id = #{userId}
+	</update>
 	<!-- 插入用户 -->
 	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_sys_user(
@@ -170,37 +189,15 @@
 		WHERE id = #{id}
 	</update>
 
-	<!-- 商户更新信息 -->
-	<update id="updateBusi">
-		UPDATE t_sys_user SET
-		username = #{username},
-		telephone = #{telephone},
-		real_name = #{realName},
-		identity_card_num = #{identityCardNum}
-		WHERE id = #{id}
-	</update>
-
-	<!-- 更新用户密码 -->
-	<update id="updatePasswordById">
-		UPDATE t_sys_user SET
-			password = #{password},
-			salt = #{salt}
-		WHERE id = #{id}
-	</update>
-
-	<!-- 更新登录信息，如登录IP、登录时间 -->
-	<update id="updateLoginInfo">
-		UPDATE t_sys_user SET
-			login_ip = #{loginIp},
-			login_Date = #{loginDate}
-		WHERE id = #{id}
-	</update>
-
 	<!-- 逻辑删除用户 -->
 	<update id="delete">
-		UPDATE t_sys_user SET
-			del_flag = #{DEL_FLAG_DELETE}
+		UPDATE t_sys_user SET del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<!-- 逻辑删除用户 -->
+	<update id="deleteByIds">
+		UPDATE t_sys_user SET del_flag = #{DEL_FLAG_DELETE}
+		WHERE id in(#{ids})
+	</update>
+
 </mapper>

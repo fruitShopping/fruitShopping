@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fruit.dao.sys.RoleDao">
+	<resultMap id="Role" type="com.fruit.entity.sys.Role"></resultMap>
 	<sql id="roleColumns">
 		r.id,
 		r.name,
 		r.name_zh AS nameZh,
 		r.del_flag AS delFlag
 	</sql>
-	<select id="findAllList" resultType="Role">
+	<select id="queryAll" resultType="Role">
 		SELECT
 		<include refid="roleColumns"/>
 		FROM t_sys_role r
@@ -15,34 +16,23 @@
 		ORDER BY r.name
 	</select>
 
-	<select id="findOneByName" resultType="Role">
-		SELECT
+	<select id="findRoleNameByUserId" resultType="Map">
+		SELECT distinct ur.role_id,r.`name`,r.name_zh
+		from t_sys_user_role ur
+		left join t_sys_role r on ur.role_id=r.id
+		WHERE ur.user_id = #{userId}
+	</select>
+	<select id="findRolesByUserId" resultType="Role">
+		SELECT distinct
 		<include refid="roleColumns"/>
-		FROM t_sys_role r WHERE r.name=#{name}
+		from t_sys_role r
+		LEFT JOIN t_sys_user_role ur on r.id=ur.role_id
+		WHERE ur.user_id = #{userId}
 	</select>
-	<select id="findUserRoleId" resultType="Map">
-		SELECT role_id from t_sys_user_role WHERE user_id = #{userId}
-	</select>
-	<select id="findOne" resultType="Role">
+	<select id="findById" resultType="Role">
 		SELECT
 		<include refid="roleColumns"/>
 		 FROM t_sys_role r WHERE r.id=#{id} AND r.del_flag = '0'
-	</select>
-
-	<select id="findListByUser" resultType="Role">
-		SELECT <!-- DISTINCT -->
-		<include refid="roleColumns"/>
-		FROM t_sys_role r
-		LEFT JOIN t_sys_user_role ur ON ur.role_id = r.id
-		LEFT JOIN t_sys_user u ON u.id = ur.user_id
-		WHERE r.del_flag = '0'
-		<if test="user != null and user.id != null and user.id != 0">
-			AND u.id = #{user.id}
-		</if>
-		<if test="user != null and user.username != null and user.username != ''">
-			AND u.username = #{user.username}
-		</if>
-		ORDER BY r.name
 	</select>
 
 	<insert id="insert">
@@ -56,22 +46,10 @@
 	<update id="delete">
 		UPDATE t_sys_role SET del_flag='1' WHERE id=#{id}
 	</update>
+	<update id="deleteByIds">
+		UPDATE t_sys_role SET del_flag='1' WHERE id in(#{ids})
+	</update>
 
-	<insert id="insertRoleAndUser">
-		INSERT INTO t_sys_user_role	(user_id,role_id) VALUES (#{userId},#{roleId})
-	</insert>
+	<!--角色模块不负责维护角色和用户,角色和资源之间的关系，关系由关系dao维护-->
 
-	<delete id="deleteUserAndRole">
-		DELETE FROM t_sys_user_role WHERE user_id = #{userId}
-	</delete>
-
-	<delete id="delRoleAndMenu">
-		DELETE FROM t_dat_role_menu WHERE role_id = #{roleId}
-	</delete>
-	<delete id="delOneRoleAndMenu">
-		DELETE FROM t_dat_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
-	</delete>
-	<insert id="addRoleAndMenu">
-		INSERT INTO t_dat_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
-	</insert>
 </mapper>

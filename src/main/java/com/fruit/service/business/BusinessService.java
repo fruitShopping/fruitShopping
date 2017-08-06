@@ -31,10 +31,10 @@ public class BusinessService {
      * @param userId 登录用户ID
      * @return 返回值
      */
-    public BusinessEntity getInfo(long userId){
+    public BusinessEntity getInfo(int userId){
         BusinessEntity business = businessDao.get(userId);
         //查询用户信息
-        User user = userDao.findByUserId(userId);
+        User user = userDao.findUserById(userId);
         if(business != null){
             //查询图片
             List<ContentImgEntity> imgList = contentDao.getBusImg(business.getId());
@@ -53,7 +53,7 @@ public class BusinessService {
      */
     public void save(BusinessEntity business){
         //更新用户信息
-        userDao.updateBusi(business.getUser());
+        //userDao.updateBusi(business.getUser());
         //跟新商户信息
         int businessId = business.getId();
         if(businessId == 0){
