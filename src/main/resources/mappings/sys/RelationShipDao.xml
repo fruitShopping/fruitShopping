@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fruit.dao.sys.RelationShipDao">
+
+	<insert id="insertRoleResource">
+		INSERT INTO t_sys_role_resource	(role_id,resource_id) VALUES (#{roleId},#{resourceId})
+	</insert>
+
+	<delete id="deleteRoleResource">
+		DELETE FROM t_sys_role_resource WHERE role_id = #{roleId}
+	</delete>
+
+	<delete id="deleteUserRole">
+		DELETE FROM t_sys_user_role WHERE role_id = #{roleId}
+	</delete>
+	<delete id="delOneRoleAndMenu">
+		DELETE FROM t_dat_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+	</delete>
+	<insert id="addRoleAndMenu">
+		INSERT INTO t_dat_role_menu (role_id,menu_id) VALUES (#{roleId},#{menuId})
+	</insert>
+</mapper>
